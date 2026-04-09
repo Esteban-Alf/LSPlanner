@@ -239,6 +239,107 @@ tbody tr:hover td{background:#F8FDFB;}
 .empty-ico{font-size:36px;margin-bottom:10px;}
 .empty-txt{font-size:13.5px;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:10px;}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE MOBILE
+═══════════════════════════════════════════════════════ */
+.mob-topbar{display:none;align-items:center;justify-content:space-between;
+  padding:0 14px;height:52px;background:var(--sidebar-bg);
+  position:sticky;top:0;z-index:250;flex-shrink:0;}
+.mob-topbar-title{font-size:15px;font-weight:700;color:var(--text-primary);}
+.hamburger{width:36px;height:36px;border-radius:8px;
+  border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.4);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;flex-shrink:0;}
+.hamburger span{display:block;width:16px;height:2px;
+  background:var(--text-primary);border-radius:2px;}
+.sb-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:350;}
+.sb-ovl.open{display:block;}
+
+@media(max-width:700px){
+  /* Body */
+  body{flex-direction:column;height:auto;min-height:100vh;overflow-x:hidden;}
+
+  /* Topbar */
+  .mob-topbar{display:flex;}
+
+  /* Sidebar → drawer */
+  .sidebar{
+    position:fixed;top:0;left:0;height:100vh;z-index:400;
+    transform:translateX(-100%);
+    transition:transform .26s cubic-bezier(.4,0,.2,1);
+    width:250px;min-width:250px;
+  }
+  .sidebar.sb-open{transform:translateX(0);}
+
+  /* Main */
+  .main{flex:1;overflow:visible;}
+  .page{overflow-y:visible;}
+
+  /* Page header */
+  .ph{padding:14px 14px 0;flex-wrap:wrap;gap:8px;}
+  .ph-title{font-size:18px;}
+  .ph-actions{flex-wrap:wrap;gap:6px;}
+  .ph-actions .btn{font-size:12px;padding:7px 11px;}
+
+  /* Content padding */
+  .pc{padding:12px 14px 28px;}
+
+  /* KPIs: 2 colunas */
+  .kpi-grid{grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:14px;}
+  .kpi-number{font-size:26px;}
+  .kpi-icon{width:28px;height:28px;font-size:13px;}
+
+  /* Resumen del día — filas más compactas */
+  #resumeHoy{padding:14px 14px;}
+  .dash-turno-row{flex-wrap:wrap !important;gap:6px !important;padding:10px 0 !important;}
+  .dash-turno-row .dash-hora{min-width:42px !important;font-size:14px !important;}
+  .dash-turno-row .dash-info{flex:1 1 120px;min-width:0;}
+  .dash-turno-row .dash-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+
+  /* Cards pacientes/profesionales */
+  .pc-grid{grid-template-columns:1fr !important;}
+
+  /* Tablas */
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{min-width:480px;}
+
+  /* Modales */
+  .mo{align-items:flex-end;}
+  .md{border-radius:16px 16px 0 0;max-width:100%;width:100%;max-height:88vh;}
+
+  /* Drawer */
+  .drawer{width:100% !important;}
+
+  /* Form */
+  .form-grid{grid-template-columns:1fr !important;}
+  .full{grid-column:1 !important;}
+
+  /* Proximos grid */
+  .prox-grid{grid-template-columns:1fr !important;}
+
+  /* Notif bell */
+  #notifBell{top:10px;right:10px;}
+
+  /* Notif panel */
+  #notifPanel{width:calc(100vw - 24px);right:-10px;}
+
+  /* Calendario */
+  .cal-month{font-size:12px;min-width:100px;}
+  .mon-cell{min-height:40px;padding:3px 4px;}
+  .week-body{padding:2px;}
+  .w-appt-time{display:none;}
+  .w-appt{font-size:9px;padding:1px 3px;}
+
+  /* Status modal */
+  .st-opts{grid-template-columns:1fr 1fr;}
+
+  /* Soporte prioridad */
+  .spt-prio-btn{font-size:11px !important;padding:6px 2px !important;}
+
+  /* Agenda rows */
+  .act-cell{flex-wrap:wrap;gap:4px;}
+}
 </style>
 </head>
 <body>
@@ -319,7 +420,8 @@ tbody tr:hover td{background:#F8FDFB;}
 </div>
 
 <!-- ══ SIDEBAR ════════════════════════════════════════════════════════════ -->
-<aside class="sidebar">
+<div class="sb-ovl" id="sbOvl" onclick="closeSB()"></div>
+<aside class="sidebar" id="sbEl">
   <div class="sb-logo">
     <div class="sb-logo-icon">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,6 +490,11 @@ tbody tr:hover td{background:#F8FDFB;}
 
 <!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
 <main class="main">
+<div class="mob-topbar">
+  <button class="hamburger" onclick="openSB()"><span></span><span></span><span></span></button>
+  <span class="mob-topbar-title">LSPlanner</span>
+  <div style="width:36px"></div>
+</div>
 
   <!-- DASHBOARD -->
   <div id="page-dashboard" class="page active">
@@ -1195,6 +1302,7 @@ function showPage(p,el){
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   if(el)el.classList.add('active');
+  closeSB();
   if(p==='dashboard')renderDash();
   if(p==='turnos'){renderTable();populateProfFilter();}
   if(p==='pacientes')renderPacientes();
@@ -1265,16 +1373,18 @@ function renderResumenHoy(){
   }
 
   el.innerHTML=turnos.map(t=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openTurnoModal('${t.id}')">
-      <div style="font-size:15px;font-weight:700;color:var(--primary-dark);min-width:46px;flex-shrink:0">${t.hora}</div>
+    <div class="dash-turno-row" style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openTurnoModal('${t.id}')">
+      <div class="dash-hora" style="font-size:15px;font-weight:700;color:var(--primary-dark);min-width:46px;flex-shrink:0">${t.hora}</div>
       ${avDiv(t.paciente,34,11)}
-      <div style="flex:1;min-width:0">
+      <div class="dash-info" style="flex:1;min-width:0">
         <div style="font-size:13px;font-weight:600;color:var(--text-primary)">${t.paciente}</div>
         <div style="font-size:11.5px;color:var(--text-secondary)">${t.profesional}</div>
       </div>
-      <span class="badge ${stClass(t.estado)}" style="flex-shrink:0">${stLabel(t.estado)}</span>
-      <div style="font-size:12.5px;font-weight:700;color:var(--primary-dark);flex-shrink:0">$${t.importe.toLocaleString('es-AR')}</div>
-      ${isAdmin||isCentro?`<button class="act-btn" onclick="event.stopPropagation();openTurnoModal('${t.id}')">✏️</button>`:''}
+      <div class="dash-right" style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        <span class="badge ${stClass(t.estado)}">${stLabel(t.estado)}</span>
+        <div style="font-size:12px;font-weight:700;color:var(--primary-dark)">$${t.importe.toLocaleString('es-AR')}</div>
+        ${isAdmin||isCentro?`<button class="act-btn" onclick="event.stopPropagation();openTurnoModal('${t.id}')">✏️</button>`:''}
+      </div>
     </div>`).join('');
 }
 
@@ -2679,8 +2789,21 @@ async function enviarSoporte(){
   }catch(e){}
 }
 
+// ─── SIDEBAR MOBILE ──────────────────────────────────────────────────────────
+function openSB(){
+  document.getElementById('sbEl').classList.add('sb-open');
+  document.getElementById('sbOvl').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSB(){
+  document.getElementById('sbEl').classList.remove('sb-open');
+  document.getElementById('sbOvl').classList.remove('open');
+  document.body.style.overflow='';
+}
+
 // ─── ARRANQUE ────────────────────────────────────────────────────────────────
 init();
 </script>
 </body>
 </html>
+
