@@ -241,33 +241,19 @@ tbody tr:hover td{background:#F8FDFB;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:10px;}
 
 /* ═══ RESPONSIVE MOBILE ════════════════════════════════════════════ */
-.mob-topbar{
-  display:none;align-items:center;justify-content:space-between;
-  padding:0 16px;height:52px;background:var(--sidebar-bg);
-  position:fixed;top:0;left:0;right:0;z-index:300;
-}
+.mob-topbar{display:none;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:var(--sidebar-bg);position:fixed;top:0;left:0;right:0;z-index:300;}
 .mob-topbar-title{font-size:15px;font-weight:700;color:var(--text-primary);}
-.hamburger{
-  width:40px;height:40px;border-radius:9px;
-  border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:5px;
-}
+.hamburger{width:40px;height:40px;border-radius:9px;border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;}
 .hamburger span{display:block;width:18px;height:2px;background:var(--text-primary);border-radius:2px;}
+.mob-logout{width:40px;height:40px;border-radius:9px;border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sb-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:350;}
 .sb-ovl.open{display:block;}
-
 @media(max-width:700px){
   body{flex-direction:column;height:auto !important;min-height:100vh;overflow:auto !important;overflow-x:hidden;}
   .main{flex:1;overflow:visible !important;padding-top:52px;}
   .page{overflow:visible !important;}
   .mob-topbar{display:flex;}
-  .sidebar{
-    position:fixed !important;top:0;left:0;height:100vh !important;
-    z-index:400;transform:translateX(-100%);
-    transition:transform .25s ease;
-    width:255px !important;min-width:255px !important;overflow-y:auto;
-  }
+  .sidebar{position:fixed !important;top:0;left:0;height:100vh !important;z-index:400;transform:translateX(-100%);transition:transform .25s ease;width:255px !important;min-width:255px !important;overflow-y:auto;}
   .sidebar.sb-open{transform:translateX(0) !important;}
   #notifBell{top:60px !important;right:12px;}
   #notifPanel{width:calc(100vw - 28px);right:-10px;}
@@ -291,7 +277,6 @@ tbody tr:hover td{background:#F8FDFB;}
   .full{grid-column:1 !important;}
   .cal-month{font-size:12px;min-width:90px;}
   .mon-cell{min-height:40px;padding:3px;}
-  .week-body{padding:2px;}
   .w-appt-time{display:none;}
   .w-appt{font-size:9px;padding:1px 3px;}
   .st-opts{grid-template-columns:1fr 1fr !important;}
@@ -451,7 +436,9 @@ tbody tr:hover td{background:#F8FDFB;}
 <div class="mob-topbar">
   <button class="hamburger" onclick="openSB()"><span></span><span></span><span></span></button>
   <span class="mob-topbar-title">LSPlanner</span>
-  <div style="width:40px"></div>
+  <button class="mob-logout" onclick="logout()" title="Cerrar sesión">
+    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="rgba(61,26,36,0.75)" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  </button>
 </div>
 
   <!-- DASHBOARD -->
@@ -2747,16 +2734,12 @@ async function enviarSoporte(){
 
 // ─── SIDEBAR MOBILE ──────────────────────────────────────────────────────────
 function openSB(){
-  var sb=document.getElementById('sbEl');
-  var ovl=document.getElementById('sbOvl');
-  if(sb)sb.classList.add('sb-open');
-  if(ovl)ovl.classList.add('open');
+  var sb=document.getElementById('sbEl');var ovl=document.getElementById('sbOvl');
+  if(sb)sb.classList.add('sb-open');if(ovl)ovl.classList.add('open');
 }
 function closeSB(){
-  var sb=document.getElementById('sbEl');
-  var ovl=document.getElementById('sbOvl');
-  if(sb)sb.classList.remove('sb-open');
-  if(ovl)ovl.classList.remove('open');
+  var sb=document.getElementById('sbEl');var ovl=document.getElementById('sbOvl');
+  if(sb)sb.classList.remove('sb-open');if(ovl)ovl.classList.remove('open');
 }
 
 // ─── ARRANQUE ────────────────────────────────────────────────────────────────
