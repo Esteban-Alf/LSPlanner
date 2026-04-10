@@ -240,112 +240,63 @@ tbody tr:hover td{background:#F8FDFB;}
 .empty-txt{font-size:13.5px;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:10px;}
 
-/* ═══ MOBILE ═══════════════════════════════════════════════════════ */
-.mob-topbar{display:none;align-items:center;justify-content:space-between;
-  padding:0 16px;height:54px;background:var(--sidebar-bg);
-  position:fixed;top:0;left:0;right:0;z-index:300;flex-shrink:0;}
+/* ═══ RESPONSIVE MOBILE ════════════════════════════════════════════ */
+.mob-topbar{
+  display:none;align-items:center;justify-content:space-between;
+  padding:0 16px;height:52px;background:var(--sidebar-bg);
+  position:fixed;top:0;left:0;right:0;z-index:300;
+}
 .mob-topbar-title{font-size:15px;font-weight:700;color:var(--text-primary);}
-.hamburger{width:40px;height:40px;border-radius:9px;
+.hamburger{
+  width:40px;height:40px;border-radius:9px;
   border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);
   cursor:pointer;display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:5px;flex-shrink:0;padding:0;}
+  flex-direction:column;gap:5px;
+}
 .hamburger span{display:block;width:18px;height:2px;background:var(--text-primary);border-radius:2px;}
 .sb-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:350;}
 .sb-ovl.open{display:block;}
 
 @media(max-width:700px){
-  /* Body: liberar scroll */
   body{flex-direction:column;height:auto !important;min-height:100vh;overflow:auto !important;overflow-x:hidden;}
-  
-  /* Main: flujo normal */
-  .main{flex:1;overflow:visible !important;padding-top:54px;}
-  
-  /* Pages: visibles sin restricción */
-  .page{overflow:visible !important;display:none;flex-direction:column;}
-  .page.active{display:flex;}
-
-  /* Topbar */
+  .main{flex:1;overflow:visible !important;padding-top:52px;}
+  .page{overflow:visible !important;}
   .mob-topbar{display:flex;}
-
-  /* Sidebar: drawer desde la izquierda */
   .sidebar{
-    position:fixed !important;top:0;left:0;
-    height:100vh !important;z-index:400;
-    transform:translateX(-100%);
+    position:fixed !important;top:0;left:0;height:100vh !important;
+    z-index:400;transform:translateX(-100%);
     transition:transform .25s ease;
-    width:255px !important;min-width:255px !important;
-    overflow-y:auto;
+    width:255px !important;min-width:255px !important;overflow-y:auto;
   }
   .sidebar.sb-open{transform:translateX(0) !important;}
-
-  /* Notif bell: reposicionar bajo topbar */
-  #notifBell{top:62px !important;right:12px;}
-
-  /* Notif panel */
+  #notifBell{top:60px !important;right:12px;}
   #notifPanel{width:calc(100vw - 28px);right:-10px;}
-
-  /* Page header */
   .ph{padding:14px 14px 0;flex-wrap:wrap;gap:8px;}
   .ph-title{font-size:19px;}
   .ph-actions{flex-wrap:wrap;gap:6px;}
-
-  /* Content */
   .pc{padding:12px 14px 32px;}
-
-  /* KPIs */
   .kpi-grid{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
   .kpi-number{font-size:24px;}
   .kpi-icon{width:28px;height:28px;font-size:13px;margin-bottom:8px;}
-
-  /* Cards */
   .pc-grid{grid-template-columns:1fr !important;}
   .prox-grid{grid-template-columns:1fr !important;}
-
-  /* Tablas */
   .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   table{min-width:480px;}
-
-  /* Modales: sheet desde abajo */
   .mo{align-items:flex-end !important;padding:0;}
-  .md{
-    border-radius:18px 18px 0 0 !important;
-    max-width:100% !important;width:100% !important;
-    max-height:88vh !important;margin:0 !important;
-  }
-  .md-hdr{
-    padding:18px 18px 14px;
-    position:sticky;top:0;background:#fff;z-index:2;
-  }
-  .md-close{
-    width:44px !important;height:44px !important;
-    font-size:22px !important;border-radius:10px !important;
-  }
-
-  /* Drawer: ancho completo */
+  .md{border-radius:18px 18px 0 0 !important;max-width:100% !important;width:100% !important;max-height:88vh !important;}
+  .md-hdr{padding:18px 18px 14px;position:sticky;top:0;background:#fff;z-index:2;}
+  .md-close{width:44px !important;height:44px !important;font-size:22px !important;border-radius:10px !important;}
   .drawer{width:100% !important;}
-
-  /* Formularios */
   .form-grid{grid-template-columns:1fr !important;}
   .full{grid-column:1 !important;}
-
-  /* Calendario */
   .cal-month{font-size:12px;min-width:90px;}
   .mon-cell{min-height:40px;padding:3px;}
   .week-body{padding:2px;}
   .w-appt-time{display:none;}
   .w-appt{font-size:9px;padding:1px 3px;}
-
-  /* Soporte */
-  .spt-prio-btn{font-size:11px !important;padding:7px 2px !important;}
-
-  /* Agenda actions */
-  .act-cell{flex-wrap:wrap;gap:4px;}
-
-  /* Status modal */
   .st-opts{grid-template-columns:1fr 1fr !important;}
-
-  /* Resumen hoy */
-  #resumeHoy{padding:14px 14px !important;}
+  .act-cell{flex-wrap:wrap;gap:4px;}
+  #resumeHoy{padding:14px !important;}
 }
 </style>
 </head>
@@ -497,6 +448,11 @@ tbody tr:hover td{background:#F8FDFB;}
 
 <!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
 <main class="main">
+<div class="mob-topbar">
+  <button class="hamburger" onclick="openSB()"><span></span><span></span><span></span></button>
+  <span class="mob-topbar-title">LSPlanner</span>
+  <div style="width:40px"></div>
+</div>
 
   <!-- DASHBOARD -->
   <div id="page-dashboard" class="page active">
@@ -512,6 +468,7 @@ tbody tr:hover td{background:#F8FDFB;}
     </div>
     <div class="pc">
       <!-- Resumen del día -->
+      <div class="kpi-grid" id="kpiGrid"></div>
       <div id="resumeHoy" style="background:#fff;border-radius:12px;border:1px solid var(--border);padding:18px 20px;margin-bottom:18px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
           <div style="display:flex;align-items:center;gap:10px">
@@ -527,7 +484,6 @@ tbody tr:hover td{background:#F8FDFB;}
         </div>
         <div id="resumeHoyList"></div>
       </div>
-      <div class="kpi-grid" id="kpiGrid"></div>
       <div class="cal-wrap">
         <div class="cal-hdr">
           <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
@@ -1304,6 +1260,7 @@ function showPage(p,el){
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   if(el)el.classList.add('active');
+  closeSB();
   if(p==='dashboard')renderDash();
   if(p==='turnos'){renderTable();populateProfFilter();}
   if(p==='pacientes')renderPacientes();
@@ -2790,8 +2747,10 @@ async function enviarSoporte(){
 
 // ─── SIDEBAR MOBILE ──────────────────────────────────────────────────────────
 function openSB(){
-  document.getElementById('sbEl').classList.add('sb-open');
-  document.getElementById('sbOvl').classList.add('open');
+  var sb=document.getElementById('sbEl');
+  var ovl=document.getElementById('sbOvl');
+  if(sb)sb.classList.add('sb-open');
+  if(ovl)ovl.classList.add('open');
 }
 function closeSB(){
   var sb=document.getElementById('sbEl');
