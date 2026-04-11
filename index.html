@@ -239,6 +239,93 @@ tbody tr:hover td{background:#F8FDFB;}
 .empty-ico{font-size:36px;margin-bottom:10px;}
 .empty-txt{font-size:13.5px;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:10px;}
+
+/* ═══ MOBILE ═══════════════════════════════════════════════════════════ */
+.mob-topbar{display:none;align-items:center;justify-content:space-between;
+  padding:0 16px;height:52px;min-height:52px;
+  background:var(--sidebar-bg);
+  position:fixed;top:0;left:0;right:0;z-index:300;}
+.mob-topbar-title{font-size:15px;font-weight:700;color:var(--text-primary);}
+.hamburger{width:40px;height:40px;border-radius:9px;
+  border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:5px;flex-shrink:0;}
+.hamburger span{display:block;width:18px;height:2px;
+  background:var(--text-primary);border-radius:2px;}
+.mob-btn{width:40px;height:40px;border-radius:9px;
+  border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sb-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:350;}
+.sb-ovl.open{display:block;}
+
+@media(max-width:700px){
+  body{flex-direction:column !important;height:auto !important;
+    min-height:100vh;overflow-y:auto !important;overflow-x:hidden !important;}
+
+  .sidebar{
+    position:fixed !important;top:0;left:0;
+    height:100vh !important;z-index:400 !important;
+    width:260px !important;min-width:260px !important;
+    transform:translateX(-100%);
+    transition:transform .26s cubic-bezier(.4,0,.2,1);
+    overflow-y:auto;
+  }
+  .sidebar.sb-open{transform:translateX(0) !important;}
+
+  .main{flex:1;overflow:visible !important;padding-top:52px;}
+  .page{overflow:visible !important;}
+  .mob-topbar{display:flex !important;}
+
+  /* KPIs: 2 columnas */
+  .kpi-grid{grid-template-columns:1fr 1fr !important;gap:8px;}
+  .kpi-number{font-size:22px !important;}
+
+  /* Padding */
+  .ph{padding:14px 14px 0 !important;flex-wrap:wrap;gap:8px;}
+  .ph-title{font-size:18px !important;}
+  .ph-actions{flex-wrap:wrap;gap:6px;}
+  .pc{padding:12px 14px 32px !important;}
+
+  /* Cards */
+  .pc-grid{grid-template-columns:1fr !important;}
+  .prox-grid{grid-template-columns:1fr !important;}
+
+  /* Tablas */
+  .tbl-wrap{overflow-x:auto !important;-webkit-overflow-scrolling:touch;}
+  table{min-width:500px !important;}
+
+  /* Modales desde abajo */
+  .mo{align-items:flex-end !important;}
+  .md{border-radius:18px 18px 0 0 !important;
+    max-width:100% !important;width:100% !important;
+    max-height:88vh !important;}
+  .md-hdr{position:sticky;top:0;background:#fff;z-index:2;
+    padding:18px 18px 14px !important;}
+  .md-close{width:44px !important;height:44px !important;
+    font-size:22px !important;border-radius:10px !important;}
+
+  /* Drawer */
+  .drawer{width:100% !important;}
+
+  /* Formularios */
+  .form-grid{grid-template-columns:1fr !important;}
+  .full{grid-column:1 !important;}
+
+  /* Notif */
+  #notifBell{top:60px !important;right:12px;}
+  #notifPanel{width:calc(100vw - 24px) !important;right:-8px;}
+
+  /* Calendario */
+  .cal-month{font-size:12px;min-width:80px;}
+  .mon-cell{min-height:38px;padding:3px;}
+  .w-appt-time{display:none;}
+  .w-appt{font-size:9px;padding:1px 3px;}
+
+  /* Agenda y status */
+  .st-opts{grid-template-columns:1fr 1fr !important;}
+  .act-cell{flex-wrap:wrap;gap:4px;}
+  #resumeHoy{padding:14px !important;}
+}
 </style>
 </head>
 <body>
@@ -319,7 +406,8 @@ tbody tr:hover td{background:#F8FDFB;}
 </div>
 
 <!-- ══ SIDEBAR ════════════════════════════════════════════════════════════ -->
-<aside class="sidebar">
+<div class="sb-ovl" id="sbOvl" onclick="closeSB()"></div>
+<aside class="sidebar" id="sbEl">
   <div class="sb-logo">
     <div class="sb-logo-icon">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,6 +476,17 @@ tbody tr:hover td{background:#F8FDFB;}
 
 <!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
 <main class="main">
+<div class="mob-topbar">
+  <button class="hamburger" onclick="openSB()"><span></span><span></span><span></span></button>
+  <span class="mob-topbar-title">LSPlanner</span>
+  <button class="mob-btn" onclick="logout()" title="Cerrar sesión">
+    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="rgba(61,26,36,0.75)" stroke-width="2.2">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+  </button>
+</div>
 
   <!-- DASHBOARD -->
   <div id="page-dashboard" class="page active">
@@ -1195,6 +1294,7 @@ function showPage(p,el){
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   if(el)el.classList.add('active');
+  closeSB();
   if(p==='dashboard')renderDash();
   if(p==='turnos'){renderTable();populateProfFilter();}
   if(p==='pacientes')renderPacientes();
@@ -2677,6 +2777,20 @@ async function enviarSoporte(){
       leida:false,
     });
   }catch(e){}
+}
+
+// ─── SIDEBAR MOBILE ──────────────────────────────────────────────────────────
+function openSB(){
+  var sb=document.getElementById('sbEl');
+  var ovl=document.getElementById('sbOvl');
+  if(sb)sb.classList.add('sb-open');
+  if(ovl)ovl.classList.add('open');
+}
+function closeSB(){
+  var sb=document.getElementById('sbEl');
+  var ovl=document.getElementById('sbOvl');
+  if(sb)sb.classList.remove('sb-open');
+  if(ovl)ovl.classList.remove('open');
 }
 
 // ─── ARRANQUE ────────────────────────────────────────────────────────────────
