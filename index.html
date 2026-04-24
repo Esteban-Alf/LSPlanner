@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LSPlanner</title>
+<title>Vincular</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+.hidden{display:none!important;}
 :root{
   --sidebar-bg:#FC9BB5;--primary:#D63F6E;--primary-dark:#B02D57;
   --primary-light:#FBCDD8;--primary-xlight:#FAE9E9;
@@ -21,10 +22,61 @@
   --s-canc-bg:#FFE4E4;--s-canc-tx:#B91C1C;
   --hol-bg:#FFF0E6;--hol-tx:#C2410C;
 }
+/* ── Tema Claro ──────────────────────────────── */
+[data-theme="claro"]{
+  --sidebar-bg:#F1F5F9;--primary:#0D9488;--primary-dark:#0F766E;
+  --primary-light:#CCFBF1;--primary-xlight:#F0FDFA;
+  --text-primary:#1E293B;--text-secondary:#475569;--text-muted:#94A3B8;
+  --bg-page:#F8FAFC;--bg-card:#FFFFFF;--border:#E2E8F0;
+  --sidebar-text:rgba(30,41,59,0.72);
+}
+[data-theme="claro"] .sidebar{border-right:1px solid var(--border);}
+[data-theme="claro"] .sb-logo-icon{background:var(--primary);}
+[data-theme="claro"] .nav-item:hover{background:rgba(13,148,136,.08);color:var(--primary-dark);}
+[data-theme="claro"] .nav-item.active{background:rgba(13,148,136,.12);color:var(--primary-dark);}
+[data-theme="claro"] .user-av{background:var(--primary-light);color:var(--primary-dark);}
+[data-theme="claro"] .sb-footer{border-top-color:var(--border);}
+/* ── Theme picker ────────────────────────────── */
+.theme-picker{display:flex;gap:6px;padding:8px 14px;}
+.theme-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative;}
+.theme-dot:hover{transform:scale(1.15);}
+.theme-dot.active{border-color:var(--primary);box-shadow:0 0 0 2px var(--bg-page);}
+.theme-dot[data-t="rosa"]{background:linear-gradient(135deg,#FC9BB5,#D63F6E);}
+.theme-dot[data-t="claro"]{background:linear-gradient(135deg,#E2E8F0,#0D9488);}
+/* ── Onboarding Wizard ───────────────────────── */
+.wiz-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;}
+.wiz-card{background:var(--bg-card);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);border:1px solid var(--border);}
+.wiz-header{padding:24px 28px 16px;border-bottom:1px solid var(--border);}
+.wiz-steps{display:flex;gap:8px;margin-bottom:14px;}
+.wiz-step{flex:1;height:4px;border-radius:2px;background:var(--border);transition:background .3s;}
+.wiz-step.done{background:var(--primary);}
+.wiz-step.active{background:var(--primary);opacity:.6;}
+.wiz-title{font-size:20px;font-weight:700;color:var(--text-primary);}
+.wiz-sub{font-size:13px;color:var(--text-secondary);margin-top:4px;}
+.wiz-body{padding:24px 28px;}
+.wiz-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.wiz-fg{margin-bottom:14px;}
+.wiz-fg label{display:block;font-size:12.5px;font-weight:600;color:var(--text-secondary);margin-bottom:5px;}
+.wiz-fg input,.wiz-fg select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);font-size:14px;font-family:inherit;color:var(--text-primary);background:var(--bg-card);transition:border-color .2s;-webkit-appearance:auto;appearance:auto;}
+.wiz-fg input:focus,.wiz-fg select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(214,63,110,.08);}
+.wiz-fg input[readonly]{background:var(--primary-xlight);color:var(--text-muted);cursor:not-allowed;}
+.wiz-fg .wiz-hint{font-size:11px;color:var(--text-muted);margin-top:3px;}
+.wiz-days{display:flex;gap:6px;flex-wrap:wrap;}
+.wiz-day{padding:6px 12px;border-radius:6px;font-size:12.5px;font-weight:600;border:1px solid var(--border);cursor:pointer;transition:all .15s;background:var(--bg-card);color:var(--text-secondary);user-select:none;}
+.wiz-day.sel{background:var(--primary);color:#fff;border-color:var(--primary);}
+.wiz-footer{padding:16px 28px 24px;display:flex;justify-content:space-between;gap:12px;}
+.wiz-footer .btn{min-width:100px;}
+.wiz-pass-ok{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--s-conf-bg);color:var(--s-conf-tx);border-radius:8px;font-size:13px;font-weight:600;margin-top:12px;}
+.wiz-logo-preview{width:64px;height:64px;border-radius:12px;background:var(--primary-xlight);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--primary);border:2px dashed var(--border);cursor:pointer;transition:all .2s;overflow:hidden;margin-bottom:8px;}
+.wiz-logo-preview:hover{border-color:var(--primary);background:var(--primary-light);}
+.wiz-logo-preview img{width:100%;height:100%;object-fit:cover;}
+/* ── Edit pencil ─────────────────────────────── */
+.sb-edit-btn{width:28px;height:28px;border-radius:7px;border:1px solid rgba(61,26,36,.15);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .14s;opacity:.5;}
+.sb-edit-btn:hover{opacity:1;background:rgba(255,255,255,.3);border-color:rgba(61,26,36,.3);}
 body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg-page);color:var(--text-primary);display:flex;height:100vh;overflow:hidden;}
 .sidebar{width:220px;min-width:220px;background:var(--sidebar-bg);height:100vh;display:flex;flex-direction:column;overflow-y:auto;}
 .sb-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid rgba(61,26,36,0.12);}
-.sb-logo-icon{width:34px;height:34px;background:rgba(255,255,255,0.55);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;}
+.sb-logo-icon{width:34px;height:34px;background:var(--primary-dark);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;}
 .sb-logo-text{font-size:16px;font-weight:700;color:rgba(61,26,36,0.9);letter-spacing:-0.02em;}
 .sb-section{padding:14px 10px 6px;}
 .sb-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(61,26,36,0.4);padding:0 8px;margin-bottom:5px;}
@@ -100,6 +152,9 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg-pa
 .week-col-hdr:hover .week-dnum:not(.today){background:var(--primary-light);}
 .mon-cell:nth-child(7n){border-right:none;}
 .mon-cell.other{opacity:.35;}
+.mon-cell.nolab{background:repeating-linear-gradient(45deg,transparent,transparent 6px,rgba(245,158,11,.06) 6px,rgba(245,158,11,.06) 12px);}
+.mon-cell.nolab:hover{background:repeating-linear-gradient(45deg,#fff8e8,#fff8e8 6px,rgba(245,158,11,.10) 6px,rgba(245,158,11,.10) 12px);}
+.mon-blq{font-size:11px;color:var(--hol-tx);line-height:1;margin:1px 0;}
 .mon-dnum{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:500;color:var(--text-primary);margin-bottom:2px;}
 .mon-dnum.today{background:var(--primary);color:#fff;}
 .mon-dnum.holiday{background:var(--hol-bg);color:var(--hol-tx);font-weight:700;}
@@ -334,59 +389,25 @@ tbody tr:hover td{background:#F8FDFB;}
 <div class="overlay-screen" id="loadScreen">
   <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="4" y="4" width="32" height="40" rx="6" fill="#FBCDD8"/>
-      <rect x="7" y="11" width="26" height="27" rx="4" fill="white"/>
-      <rect x="11" y="18" width="12" height="3" rx="1.5" fill="#FBCDD8"/>
-      <rect x="11" y="24" width="18" height="3" rx="1.5" fill="#FBCDD8"/>
-      <rect x="11" y="30" width="15" height="3" rx="1.5" fill="#FBCDD8"/>
-      <circle cx="38" cy="38" r="10" fill="#D63F6E"/>
-      <polyline points="32,38 36.5,42.5 44,34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="18" cy="20" r="12" stroke="var(--primary)" stroke-width="3" fill="none" opacity="0.9"/>
+      <circle cx="30" cy="28" r="12" stroke="var(--primary)" stroke-width="3" fill="none" opacity="0.5"/>
     </svg>
-    <div style="font-size:20px;font-weight:700;color:var(--primary-dark);letter-spacing:-.02em">LSPlanner</div>
+    <div style="font-size:20px;font-weight:700;color:var(--primary-dark);letter-spacing:-.02em">Vincular</div>
     <div class="spin"></div>
     <div style="font-size:13px;color:var(--text-secondary)" id="loadMsg">Conectando con la base de datos...</div>
   </div>
 </div>
 
 <!-- ══ SETUP SCREEN (si no hay credenciales) ══════════════════════════════ -->
-<div class="overlay-screen hidden" id="setupScreen">
-  <div class="setup-card">
-    <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:10px">
-      <rect x="4" y="4" width="32" height="40" rx="6" fill="#FBCDD8"/>
-      <rect x="7" y="11" width="26" height="27" rx="4" fill="white"/>
-      <rect x="11" y="18" width="12" height="3" rx="1.5" fill="#FBCDD8"/>
-      <rect x="11" y="24" width="18" height="3" rx="1.5" fill="#FBCDD8"/>
-      <rect x="11" y="30" width="15" height="3" rx="1.5" fill="#FBCDD8"/>
-      <circle cx="38" cy="38" r="10" fill="#D63F6E"/>
-      <polyline points="32,38 36.5,42.5 44,34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div style="font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:-.02em;margin-bottom:6px">Configurar LSPlanner</div>
-    <div style="font-size:13px;color:var(--text-secondary);margin-bottom:28px">Seguí estos pasos para conectar la base de datos. Solo lo hacés una vez.</div>
-    <div class="setup-step"><div class="step-num">1</div><div class="step-text">Creá una cuenta gratuita en <strong><a href="https://supabase.com" target="_blank" style="color:var(--primary)">supabase.com</a></strong> y creá un nuevo proyecto. Elegí <strong>São Paulo</strong> como región para menor latencia.</div></div>
-    <div class="setup-step"><div class="step-num">2</div><div class="step-text">En el dashboard del proyecto, andá a <strong>Settings → API</strong>. Copiá el <strong>Project URL</strong> y la <strong>anon public key</strong>.</div></div>
-    <div class="setup-step"><div class="step-num">3</div><div class="step-text">Andá a <strong>SQL Editor → New Query</strong>, pegá el contenido del archivo <strong>schema.sql</strong> (que descargaste junto a este archivo) y ejecutalo con <strong>Run</strong>.</div></div>
-    <div class="setup-step" style="margin-bottom:0"><div class="step-num">4</div><div class="step-text">Abrí <strong>lsplanner.html</strong> en un editor de texto y reemplazá las dos líneas de configuración:</div></div>
-    <div class="code-block">
-      <div class="code-line">const SUPABASE_URL = '<span style="background:#fff;padding:0 4px;border-radius:3px">REEMPLAZA_CON_TU_URL</span>';</div>
-      <div class="code-line">const SUPABASE_ANON_KEY = '<span style="background:#fff;padding:0 4px;border-radius:3px">REEMPLAZA_CON_TU_ANON_KEY</span>';</div>
-    </div>
-    <div style="margin-top:16px;font-size:12px;color:var(--text-muted)">Guardá el archivo y recargá esta página. ¡Listo!</div>
-  </div>
-</div>
-
 <!-- ══ LOGIN SCREEN ════════════════════════════════════════════════════════ -->
 <div class="overlay-screen hidden" id="loginScreen">
   <div class="setup-card" style="max-width:380px;text-align:center">
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:12px">
-      <rect x="4" y="4" width="32" height="40" rx="6" fill="#FBCDD8"/>
-      <rect x="7" y="11" width="26" height="27" rx="4" fill="white"/>
-      <rect x="11" y="18" width="12" height="3" rx="1.5" fill="#FBCDD8"/>
-      <rect x="11" y="24" width="18" height="3" rx="1.5" fill="#FBCDD8"/>
-      <rect x="11" y="30" width="15" height="3" rx="1.5" fill="#FBCDD8"/>
-      <circle cx="38" cy="38" r="10" fill="#D63F6E"/>
-      <polyline points="32,38 36.5,42.5 44,34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="18" cy="20" r="12" stroke="var(--primary)" stroke-width="3" fill="none" opacity="0.9"/>
+      <circle cx="30" cy="28" r="12" stroke="var(--primary)" stroke-width="3" fill="none" opacity="0.5"/>
     </svg>
-    <div style="font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:-.02em;margin-bottom:4px">LSPlanner</div>
+    <div style="font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:-.02em;margin-bottom:4px">Vincular</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:2px;font-weight:500;letter-spacing:.03em">Gestión terapéutica conectada</div>
     <div style="font-size:13px;color:var(--text-secondary);margin-bottom:28px">Ingresá con tu cuenta para continuar</div>
     <div style="display:flex;flex-direction:column;gap:12px;text-align:left">
       <div class="fg"><label class="flabel">Usuario o email</label>
@@ -405,22 +426,121 @@ tbody tr:hover td{background:#F8FDFB;}
   </div>
 </div>
 
+<!-- ══ ONBOARDING WIZARD ═══════════════════════════════════════════════════ -->
+<div class="wiz-overlay hidden" id="wizOverlay">
+  <div class="wiz-card">
+    <div class="wiz-header">
+      <div class="wiz-steps">
+        <div class="wiz-step done" id="wizS1"></div>
+        <div class="wiz-step" id="wizS2"></div>
+        <div class="wiz-step" id="wizS3"></div>
+      </div>
+      <div class="wiz-title" id="wizTitle">Información del responsable</div>
+      <div class="wiz-sub" id="wizSub">Completá los datos del responsable del centro. Todos los campos son obligatorios.</div>
+    </div>
+    <!-- STEP 1: Responsable -->
+    <div class="wiz-body" id="wizStep1">
+      <div class="wiz-row">
+        <div class="wiz-fg"><label>Nombre</label><input type="text" id="wNombre" placeholder="Juan"></div>
+        <div class="wiz-fg"><label>Apellido</label><input type="text" id="wApellido" placeholder="Pérez"></div>
+      </div>
+      <div class="wiz-fg"><label>Fecha de nacimiento</label><input type="date" id="wFechaNac"></div>
+      <div class="wiz-fg"><label>Email</label><input type="email" id="wEmail" readonly><div class="wiz-hint">Este es tu email de acceso. No se puede modificar.</div></div>
+      <div class="wiz-fg"><label>Teléfono (con código de área)</label><input type="tel" id="wTel" placeholder="1123456789"></div>
+      <div class="wiz-row">
+        <div class="wiz-fg"><label>Horario inicio</label>
+          <select id="wHoraInicio"></select>
+        </div>
+        <div class="wiz-fg"><label>Horario fin</label>
+          <select id="wHoraFin"></select>
+        </div>
+      </div>
+      <div class="wiz-fg"><label>Días laborales</label>
+        <div class="wiz-days" id="wDias">
+          <span class="wiz-day sel" data-d="lun" onclick="this.classList.toggle('sel')">Lun</span>
+          <span class="wiz-day sel" data-d="mar" onclick="this.classList.toggle('sel')">Mar</span>
+          <span class="wiz-day sel" data-d="mie" onclick="this.classList.toggle('sel')">Mié</span>
+          <span class="wiz-day sel" data-d="jue" onclick="this.classList.toggle('sel')">Jue</span>
+          <span class="wiz-day sel" data-d="vie" onclick="this.classList.toggle('sel')">Vie</span>
+          <span class="wiz-day" data-d="sab" onclick="this.classList.toggle('sel')">Sáb</span>
+          <span class="wiz-day" data-d="dom" onclick="this.classList.toggle('sel')">Dom</span>
+        </div>
+      </div>
+    </div>
+    <!-- STEP 2: Contraseña -->
+    <div class="wiz-body hidden" id="wizStep2">
+      <div class="wiz-fg"><label>Nueva contraseña</label><input type="password" id="wPass1" placeholder="Mínimo 6 caracteres"></div>
+      <div class="wiz-fg"><label>Confirmar contraseña</label><input type="password" id="wPass2" placeholder="Repetí la contraseña"></div>
+      <div id="wPassMsg" style="font-size:12px;color:#B91C1C;min-height:18px"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="wizChangePassword()">Cambiar contraseña</button>
+      <div class="wiz-pass-ok hidden" id="wPassOk">✓ Contraseña actualizada correctamente</div>
+      <div style="margin-top:14px;padding:12px;background:var(--primary-xlight);border-radius:8px;font-size:12.5px;color:var(--text-secondary);line-height:1.5">
+        💡 Te recomendamos cambiar la contraseña temporal que te enviamos. Si preferís mantenerla, podés saltar este paso.
+      </div>
+    </div>
+    <!-- STEP 3: Centro -->
+    <div class="wiz-body hidden" id="wizStep3">
+      <div class="wiz-fg"><label>Nombre del centro</label><input type="text" id="wCentroNombre" placeholder="Ej: Centro de Psicología Vincular"><div class="wiz-hint">Este nombre se mostrará en la plataforma.</div></div>
+      <div class="wiz-fg">
+        <label>Logo del centro</label>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="wiz-logo-preview" id="wLogoPreview" onclick="document.getElementById('wLogoInput').click()">📷</div>
+          <div>
+            <div style="font-size:13px;color:var(--text-secondary)">Hacé clic para subir una imagen</div>
+            <div style="font-size:11px;color:var(--text-muted)">JPG o PNG, máximo 2MB</div>
+          </div>
+        </div>
+        <input type="file" id="wLogoInput" accept="image/*" style="display:none" onchange="previewWizLogo(this)">
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <div class="wiz-footer">
+      <button class="btn btn-outline hidden" id="wizBack" onclick="wizNav(-1)">← Anterior</button>
+      <div style="flex:1"></div>
+      <button class="btn btn-primary" id="wizNext" onclick="wizNav(1)">Siguiente →</button>
+    </div>
+    <div style="font-size:12px;color:#B91C1C;text-align:center;padding:0 28px 16px;min-height:20px" id="wizErr"></div>
+  </div>
+</div>
+
+<!-- ══ EDIT PROFILE MODAL ═════════════════════════════════════════════════ -->
+<div class="mo" id="moEditProfile" onclick="if(event.target===this)closeEditProfile()">
+  <div class="md" style="max-width:440px">
+    <div class="md-hdr"><span class="md-title">Editar perfil del centro</span><button class="md-close" onclick="closeEditProfile()">✕</button></div>
+    <div class="md-body">
+      <div class="fg"><label class="flabel">Nombre del centro</label><input type="text" class="finput" id="epNombre"></div>
+      <div class="fg" style="margin-top:12px">
+        <label class="flabel">Logo</label>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:4px">
+          <div class="wiz-logo-preview" id="epLogoPreview" onclick="document.getElementById('epLogoInput').click()">📷</div>
+          <div style="font-size:12px;color:var(--text-muted)">Clic para cambiar</div>
+        </div>
+        <input type="file" id="epLogoInput" accept="image/*" style="display:none" onchange="previewEpLogo(this)">
+      </div>
+      <div class="form-grid" style="margin-top:12px">
+        <div class="fg"><label class="flabel">Horario inicio</label><select class="fsel" id="epHoraInicio"></select></div>
+        <div class="fg"><label class="flabel">Horario fin</label><select class="fsel" id="epHoraFin"></select></div>
+      </div>
+      <div class="fg" style="margin-top:12px"><label class="flabel">Teléfono</label><input type="tel" class="finput" id="epTel"></div>
+    </div>
+    <div style="padding:12px 22px 18px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--border)">
+      <button class="btn btn-outline" onclick="closeEditProfile()">Cancelar</button>
+      <button class="btn btn-primary" id="epSaveBtn" onclick="saveEditProfile()">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ SIDEBAR ════════════════════════════════════════════════════════════ -->
 <div class="sb-ovl" id="sbOvl" onclick="closeSB()"></div>
 <aside class="sidebar" id="sbEl">
   <div class="sb-logo">
     <div class="sb-logo-icon">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="13" height="16" rx="2.5" fill="rgba(61,26,36,0.15)"/>
-        <rect x="3.5" y="5" width="10" height="11" rx="1.5" fill="white"/>
-        <rect x="5" y="8" width="5" height="1.5" rx="0.75" fill="#FC9BB5"/>
-        <rect x="5" y="10.5" width="7" height="1.5" rx="0.75" fill="#FC9BB5"/>
-        <rect x="5" y="13" width="6" height="1.5" rx="0.75" fill="#FC9BB5"/>
-        <circle cx="15" cy="15" r="4" fill="#D63F6E"/>
-        <polyline points="12.5,15 14.2,16.8 17.5,13.2" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="9" cy="10" r="6" stroke="white" stroke-width="2.2" fill="none" opacity="0.9"/>
+        <circle cx="15" cy="14" r="6" stroke="white" stroke-width="2.2" fill="none" opacity="0.55"/>
       </svg>
     </div>
-    <span class="sb-logo-text">LSPlanner</span>
+    <span class="sb-logo-text">Vincular</span>
   </div>
   <div class="sb-section">
     <div class="sb-label">Navegación</div>
@@ -464,10 +584,26 @@ tbody tr:hover td{background:#F8FDFB;}
       Panel de Control <span id="panelBadge" style="display:none;background:#7C3AED;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:4px"></span>
     </div>
   </div>
+  <div class="sb-section" style="padding-top:6px">
+    <div class="sb-label">Más</div>
+    <a class="nav-item" href="https://vincular.com.ar" target="_blank" style="text-decoration:none">
+      <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Nosotros
+    </a>
+  </div>
+  <div style="padding:6px 10px">
+    <div class="sb-label" style="margin-bottom:6px">Tema</div>
+    <div class="theme-picker">
+      <div class="theme-dot active" data-t="rosa" title="Rosa" onclick="setTheme('rosa')"></div>
+      <div class="theme-dot" data-t="claro" title="Claro" onclick="setTheme('claro')"></div>
+    </div>
+  </div>
   <div id="sidebarSedeTag" style="display:none;margin:0 10px 8px;padding:5px 10px;background:rgba(255,255,255,.2);border-radius:6px;font-size:11px;font-weight:600;color:rgba(61,26,36,.8);text-align:center"></div>
   <div class="sb-footer">
     <div class="user-av" id="footerAv">AG</div>
     <div style="flex:1;min-width:0"><div class="user-name" id="footerName">Admin</div><div class="user-role" id="footerRole">Administrador</div></div>
+    <button class="sb-edit-btn" onclick="openEditProfile()" title="Editar perfil" id="editProfileBtn" style="display:none">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </button>
     <button onclick="logout()" title="Cerrar sesión" style="width:28px;height:28px;border-radius:7px;border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s;" onmouseover="this.style.background='rgba(255,255,255,.5)'" onmouseout="this.style.background='rgba(255,255,255,.3)'">
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="rgba(61,26,36,0.7)" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
     </button>
@@ -478,7 +614,7 @@ tbody tr:hover td{background:#F8FDFB;}
 <main class="main">
 <div class="mob-topbar">
   <button class="hamburger" onclick="openSB()"><span></span><span></span><span></span></button>
-  <span class="mob-topbar-title">LSPlanner</span>
+  <span class="mob-topbar-title">Vincular</span>
   <button class="mob-btn" onclick="logout()" title="Cerrar sesión">
     <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="rgba(61,26,36,0.75)" stroke-width="2.2">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -667,12 +803,12 @@ tbody tr:hover td{background:#F8FDFB;}
     <div class="pc">
       <div style="max-width:600px">
         <div style="background:#fff;border-radius:12px;border:1px solid var(--border);padding:24px;margin-bottom:16px">
-          <div style="font-size:13.5px;color:var(--text-secondary);margin-bottom:20px;line-height:1.6">Tu opinión nos ayuda a mejorar LSPlanner. Contanos qué funciona bien, qué podría mejorar o qué funcionalidad te gustaría tener.</div>
+          <div style="font-size:13.5px;color:var(--text-secondary);margin-bottom:20px;line-height:1.6">Tu opinión nos ayuda a mejorar Vincular. Contanos qué funciona bien, qué podría mejorar o qué funcionalidad te gustaría tener.</div>
           <div style="display:flex;flex-direction:column;gap:14px">
             <div class="fg">
               <label class="flabel">Destinatario *</label>
               <select class="fsel" id="sptDestino" style="width:100%" onchange="toggleDestinoInfo()">
-                <option value="admin">🔧 Administrador LSPlanner</option>
+                <option value="admin">🔧 Administrador Vincular</option>
                 <option value="sede">🏢 Mi sede</option>
               </select>
               <div id="sptDestinoInfo" style="display:none;margin-top:6px;font-size:11.5px;color:var(--text-secondary);background:var(--primary-xlight);padding:8px 10px;border-radius:6px"></div>
@@ -720,7 +856,7 @@ tbody tr:hover td{background:#F8FDFB;}
           </div>
         </div>
         <div style="background:var(--primary-xlight);border-radius:10px;padding:14px 16px;font-size:12px;color:var(--text-secondary);line-height:1.6">
-          📬 Tu mensaje llega directo al administrador de LSPlanner y aparece en el Panel de Control.
+          📬 Tu mensaje llega directo al administrador de Vincular y aparece en el Panel de Control.
         </div>
       </div>
     </div>
@@ -921,7 +1057,7 @@ tbody tr:hover td{background:#F8FDFB;}
         </button>
         <button class="btn btn-outline" style="justify-content:flex-start;gap:10px;padding:11px 14px" onclick="_sendEmail()">
           <span style="font-size:18px">✉️</span>
-          <div style="text-align:left"><div style="font-size:13px;font-weight:600">Email automático <span style="background:#D4F4EB;color:#0D5C4A;font-size:10px;padding:1px 6px;border-radius:10px;margin-left:4px">${emailJsReady()?'Listo':'Requiere config'}</span></div><div style="font-size:11px;color:var(--text-muted)">Enviado desde LSPlanner.system&#64;gmail.com</div></div>
+          <div style="text-align:left"><div style="font-size:13px;font-weight:600">Email automático <span style="background:#D4F4EB;color:#0D5C4A;font-size:10px;padding:1px 6px;border-radius:10px;margin-left:4px">${emailJsReady()?'Listo':'Requiere config'}</span></div><div style="font-size:11px;color:var(--text-muted)">Enviado desde Vincular.system&#64;gmail.com</div></div>
         </button>
         <button class="btn btn-outline" style="justify-content:flex-start;gap:10px;padding:11px 14px" onclick="_sendWA()">
           <span style="font-size:18px">💬</span>
@@ -979,7 +1115,7 @@ tbody tr:hover td{background:#F8FDFB;}
       <div style="display:flex;flex-direction:column;gap:9px">
         <button class="btn btn-outline" style="justify-content:flex-start;gap:10px;padding:11px 14px" onclick="_pacEmail()">
           <span style="font-size:18px">✉️</span>
-          <div style="text-align:left"><div style="font-size:13px;font-weight:600">Email</div><div style="font-size:11px;color:var(--text-muted)">Enviado desde LSPlanner.system&#64;gmail.com</div></div>
+          <div style="text-align:left"><div style="font-size:13px;font-weight:600">Email</div><div style="font-size:11px;color:var(--text-muted)">Enviado desde Vincular.system&#64;gmail.com</div></div>
         </button>
         <button class="btn btn-outline" style="justify-content:flex-start;gap:10px;padding:11px 14px" onclick="_pacWA()">
           <span style="font-size:18px">💬</span>
@@ -1036,7 +1172,7 @@ let selStat=null, statTgtId=null;
 const ADMIN_EMAIL = 'lsplanner.system@gmail.com';
 const ALIAS_MAP = {
   'admin':  'lsplanner.system@gmail.com',
-  'schwab': 'estebanalfonzo1997@gmail.com',
+  'schwab': 'laila.schwab123@gmail.com',
   'ser':    'ctagral24@gmail.com',
   'free':   'freetest.lsplanner@gmail.com',
 };
@@ -1044,6 +1180,7 @@ let currentUser=null, isAdmin=false, isCentro=false, currentProfesional=null;
 let currentSede=null, currentSedeId=null, currentRol=null;
 let SEDES=[], USUARIOS_APP=[];
 let SOLICITUDES=[], NOTIFICACIONES=[];
+let DIAS_BLOQUEADOS=[]; // Fase 3: días bloqueados por sede
 const TODAY = new Date();
 const TSTR  = fmt(TODAY);
 let dashDay = TSTR;
@@ -1067,13 +1204,14 @@ const AV_PALETTES=[
 // ─── NORMALIZACIÓN (snake_case BD → camelCase JS) ────────────────────────────
 const normPac = r => ({id:r.id,nombre:r.nombre,tel:r.tel||'',email:r.email||'',
   fechaNac:r.fecha_nac||'',obraSocial:r.obra_social||'',direccion:r.direccion||'',notas:r.notas||'',
-  profesionalAsignado:r.profesional_asignado||'',avatarUrl:r.avatar_url||''});
+  profesionalAsignado:r.profesional_asignado||'',avatarUrl:r.avatar_url||'',sede_id:r.sede_id||null});
 const normPro = r => ({id:r.id,nombre:r.nombre,especialidad:r.especialidad||'',
   tel:r.tel||'',email:r.email||'',tarifa:Number(r.tarifa)||0,
-  matricula:r.matricula||'',disponibilidad:r.disponibilidad||'',notas:r.notas||'',avatarUrl:r.avatar_url||''});
+  matricula:r.matricula||'',disponibilidad:r.disponibilidad||'',notas:r.notas||'',avatarUrl:r.avatar_url||'',sede_id:r.sede_id||null});
 const normTur = r => ({id:r.id,paciente:r.paciente,profesional:r.profesional,
   fecha:r.fecha,hora:r.hora,importe:Number(r.importe)||0,estado:r.estado||'pendiente_confirmar',
-  notas:r.notas||'',pacienteNotificado:r.paciente_notificado||false,recordatorioEnviado:r.recordatorio_enviado||false});
+  notas:r.notas||'',pacienteNotificado:r.paciente_notificado||false,recordatorioEnviado:r.recordatorio_enviado||false,
+  sede_id:r.sede_id||null});
 const normSol = r => ({id:r.id,turnoId:r.turno_id,profesional:r.profesional,paciente:r.paciente,
   cambios:r.cambios||{},datosOriginales:r.datos_originales||{},estado:r.estado,notaAdmin:r.nota_admin||'',createdAt:r.created_at});
 
@@ -1119,13 +1257,13 @@ function showLoginScreen(){
   loadSavedCredentials();
   const hasSaved=!!localStorage.getItem('ls_email');
   document.getElementById('rememberMe').checked=hasSaved;
-  setTimeout(()=>document.getElementById(hasSaved?'loginBtn':'loginEmail').focus(),100);
+  setTimeout(()=>document.getElementById(hasSaved?'loginPass':'loginEmail').focus(),100);
 }
 
 async function init(){
   if(!isConfigured()){
     document.getElementById('loadScreen').classList.add('hidden');
-    document.getElementById('setupScreen').classList.remove('hidden');
+    showLoginScreen();
     return;
   }
   db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
@@ -1221,8 +1359,27 @@ async function onLogin(user){
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('loadScreen').classList.remove('hidden');
   document.getElementById('loadMsg').textContent='Cargando datos...';
-  const{data:uData}=await db.from('usuarios_app').select('*,sedes(*)').ilike('email',user.email).single();
-  if(uData){currentRol=uData.rol;currentSede=uData.sedes;currentSedeId=uData.sede_id;}
+  let uData=null;
+  try{
+    const{data,error}=await db.from('usuarios_app').select('*,sedes(*)').ilike('email',user.email).single();
+    if(error)throw error;
+    uData=data;
+  }catch(e){
+    console.error('Error cargando usuario:',e);
+    document.getElementById('loadScreen').classList.add('hidden');
+    showLoginScreen();
+    document.getElementById('loginErr').textContent='No se encontró tu perfil. Contactá al administrador.';
+    await db.auth.signOut();
+    return;
+  }
+  if(!uData){
+    document.getElementById('loadScreen').classList.add('hidden');
+    showLoginScreen();
+    document.getElementById('loginErr').textContent='Tu usuario no tiene un perfil asignado. Contactá al administrador.';
+    await db.auth.signOut();
+    return;
+  }
+  currentRol=uData.rol;currentSede=uData.sedes;currentSedeId=uData.sede_id;
   isAdmin=(currentRol==='admin');
   isCentro=(currentRol==='centro');
   if(!isAdmin){
@@ -1240,8 +1397,10 @@ async function onLogin(user){
   initEmailJs();
   applyRoleUI();
   updateNotifBadge();
+  updateSidebarCentro();
   renderDash();
   if(isAdmin)setTimeout(checkRecordatorios,3000);
+  else setTimeout(checkOnboarding,500);
 }
 
 function applyRoleUI(){
@@ -1253,8 +1412,8 @@ function applyRoleUI(){
     else if(isCentro)el.style.display=centroHide.includes(p)?'none':'';
     else el.style.display=profHide.includes(p)?'none':'';
   });
-  const rolLabels={admin:'Admin LSPlanner',centro:'Centro',profesional:'Profesional'};
-  const name=isAdmin?'LSPlanner':(currentSede?.nombre||currentProfesional?.nombre||currentUser.email);
+  const rolLabels={admin:'Admin Vincular',centro:'Centro',profesional:'Profesional'};
+  const name=isAdmin?'Vincular':(currentSede?.nombre||currentProfesional?.nombre||currentUser.email);
   const shortName=name.split(' ').slice(0,2).join(' ');
   const avText=isAdmin?'AD':(isCentro?(currentSede?.alias?.substring(0,2)||'CE'):initials(name));
   document.getElementById('footerAv').textContent=avText;
@@ -1281,6 +1440,8 @@ async function loadAll(){
     if(isAdmin||isCentro){try{const{data}=await db.from('solicitudes').select('*').order('created_at',{ascending:false});SOLICITUDES=(data||[]).map(normSol);}catch(e){SOLICITUDES=[];}}
     if(isAdmin){try{const{data}=await db.from('sedes').select('*').order('nombre');SEDES=data||[];}catch(e){SEDES=[];}}
     if(isAdmin){try{const{data}=await db.from('usuarios_app').select('*').order('email');USUARIOS_APP=data||[];}catch(e){USUARIOS_APP=[];}}
+    // Fase 3: cargar días bloqueados
+    try{const{data}=await db.from('dias_bloqueados').select('*').order('fecha');DIAS_BLOQUEADOS=data||[];}catch(e){DIAS_BLOQUEADOS=[];}
   }catch(err){
     document.getElementById('loadMsg').textContent='Error: '+(err.message||'No se pudo conectar');
     document.getElementById('loadMsg').style.color='#B91C1C';
@@ -1437,8 +1598,13 @@ function renderCalendar(){
        <div class="mon-grid">${cells.map(({d,s,o})=>{
         const cnt=TURNOS.filter(t=>t.fecha===s&&t.estado!=='cancelado').length;
         const fer=FERIADOS[s];const isT=s===TSTR;
-        return `<div class="mon-cell${o?' other':''}" onclick="openDayModal('${s}')"><div class="mon-dnum${isT?' today':''}${fer&&!isT?' holiday':''}">${d.getDate()}</div>
-          ${fer?`<div class="mon-hol">${fer}</div>`:''}${cnt>0?`<div class="mon-count">${cnt} turno${cnt>1?'s':''}</div>`:''}</div>`;
+        const diaInfo=checkDiaLaboral(s);
+        const noLab=!diaInfo.laboral;
+        const blqProprio=DIAS_BLOQUEADOS.find(x=>x.fecha===s&&x.sede_id===currentSedeId);
+        const blqClass=noLab?' nolab':'';
+        const blqMark=blqProprio?'<div class="mon-blq" title="'+blqProprio.motivo+'">🚫</div>':(noLab&&!fer?'<div class="mon-blq" title="'+diaInfo.motivo+'">·</div>':'');
+        return `<div class="mon-cell${o?' other':''}${blqClass}" onclick="openDayModal('${s}')"><div class="mon-dnum${isT?' today':''}${fer&&!isT?' holiday':''}">${d.getDate()}</div>
+          ${fer?`<div class="mon-hol">${fer}</div>`:''}${blqMark}${cnt>0?`<div class="mon-count">${cnt} turno${cnt>1?'s':''}</div>`:''}</div>`;
        }).join('')}</div>`;
   }
 }
@@ -1466,7 +1632,13 @@ function openDayModal(s){
   const[y,m,d]=s.split('-');
   document.getElementById('diaTitulo').textContent=`${parseInt(d)} de ${MN[parseInt(m)-1]} de ${y}`;
   const fer=FERIADOS[s];
-  document.getElementById('diaFeriado').textContent=fer?`🎉 ${fer}`:'';
+  // Estado del día (laboral/bloqueado)
+  const diaInfo=checkDiaLaboral(s);
+  const blqProprio=DIAS_BLOQUEADOS.find(x=>x.fecha===s&&x.sede_id===currentSedeId);
+  let badge='';
+  if(fer)badge=`🎉 ${fer}`;
+  if(!diaInfo.laboral)badge+=(badge?' · ':'')+`🚫 ${diaInfo.motivo}`;
+  document.getElementById('diaFeriado').textContent=badge;
   const ts=TURNOS.filter(t=>t.fecha===s).sort((a,b)=>a.hora.replace(/^(\d):/,'0$1:').localeCompare(b.hora.replace(/^(\d):/,'0$1:')));
   document.getElementById('diaBody').innerHTML=ts.length
     ?ts.map(t=>`
@@ -1482,7 +1654,35 @@ function openDayModal(s){
         <button class="act-btn" title="Editar" onclick="closeDayModal();openTurnoModal('${t.id}')">✏️</button>
       </div>`).join('')
     :`<div class="empty" style="padding:28px 0"><div class="empty-ico">📅</div><div class="empty-txt">No hay turnos para este día</div></div>`;
-  document.getElementById('diaNuevoBtn').onclick=()=>{closeDayModal();openTurnoModal(null,null,null,s);};
+  // Botón "Nuevo turno" — deshabilitado si día no laboral
+  const btnNuevo=document.getElementById('diaNuevoBtn');
+  if(!diaInfo.laboral){
+    btnNuevo.style.display='none';
+  }else{
+    btnNuevo.style.display='';
+    btnNuevo.onclick=()=>{closeDayModal();openTurnoModal(null,null,null,s);};
+  }
+  // Botón "Bloquear/Desbloquear día" — solo para centro/admin, no para profesional
+  let btnBloq=document.getElementById('diaBloqBtn');
+  if(!btnBloq){
+    btnBloq=document.createElement('button');
+    btnBloq.id='diaBloqBtn';
+    btnBloq.className='btn btn-outline btn-sm';
+    btnNuevo.parentNode.insertBefore(btnBloq,btnNuevo);
+  }
+  if(isAdmin||isCentro){
+    btnBloq.style.display='';
+    if(blqProprio){
+      btnBloq.innerHTML='✓ Día bloqueado · Quitar';
+      btnBloq.style.color='var(--hol-tx)';
+    }else{
+      btnBloq.innerHTML='🚫 Marcar día no laborable';
+      btnBloq.style.color='';
+    }
+    btnBloq.onclick=()=>toggleDiaBloqueado(s);
+  }else{
+    btnBloq.style.display='none';
+  }
   document.getElementById('moDia').classList.add('open');
 }
 function closeDayModal(){document.getElementById('moDia').classList.remove('open');}
@@ -1596,6 +1796,11 @@ async function saveTurno(){
   const est=document.getElementById('fE').value;
   const not=document.getElementById('fN').value.trim();
   if(!pac||!pro||!fec||!hor||isNaN(imp)){toast('⚠️ Completá los campos obligatorios',true);return;}
+  // Fase 3: validar día laboral
+  const diaInfo=checkDiaLaboral(fec);
+  if(!diaInfo.laboral){
+    if(!confirm(`⚠️ El día ${fec} está marcado como no laboral (${diaInfo.motivo}). ¿Crear el turno igualmente?`))return;
+  }
   setBusy('btnSaveTurno',true);
   const payload={paciente:pac,profesional:pro,fecha:fec,hora:hor,importe:imp,estado:est,notas:not,...(currentSedeId&&{sede_id:currentSedeId})};
   try{
@@ -1891,7 +2096,7 @@ function buildPacienteDrawer(id){
         <div class="stats-row">
           <div class="stat-box"><div class="stat-num">${ts.length}</div><div class="stat-lbl">Turnos totales</div></div>
           <div class="stat-box"><div class="stat-num">${conf.length}</div><div class="stat-lbl">Confirmados</div></div>
-          <div class="stat-box"><div class="stat-num" style="font-size:17px">$${total>0?Math.round(total/1000)+'k':'0'}</div><div class="stat-lbl">Total invertido</div></div>
+          <div class="stat-box"><div class="stat-num" style="font-size:15px">$${total>0?total.toLocaleString('es-AR'):'0'}</div><div class="stat-lbl">Total invertido</div></div>
         </div>
       </div>
       <div class="dw-sec"><div class="dw-sec-title">Datos del paciente</div>
@@ -2227,14 +2432,14 @@ function abrirWhatsappAviso(profesionalNombre,paciente,fecha,hora,estado){
   const pro=PROFESIONALES.find(p=>p.nombre===profesionalNombre);
   const tel=(pro?.tel||'').replace(/\D/g,'');
   const numero=tel?( tel.startsWith('54')?tel:'54'+tel ) : WA_DEFAULT_NUMBER;
-  const msg=`Hola ${profesionalNombre}! 👋 Te avisamos desde *LSPlanner*:\n\nTenés un turno asignado:\n👤 Paciente: *${paciente}*\n📅 Fecha: ${fmtDate(fecha)} a las ${hora}hs\n📋 Estado: *${stLabel(estado)}*\n\n⏰ Tenés 24hs para confirmarlo en la plataforma. Cualquier consulta respondé este mensaje.`;
+  const msg=`Hola ${profesionalNombre}! 👋 Te avisamos desde *Vincular*:\n\nTenés un turno asignado:\n👤 Paciente: *${paciente}*\n📅 Fecha: ${fmtDate(fecha)} a las ${hora}hs\n📋 Estado: *${stLabel(estado)}*\n\n⏰ Tenés 24hs para confirmarlo en la plataforma. Cualquier consulta respondé este mensaje.`;
   abrirWhatsapp(numero,msg);
 }
 function abrirEmailAviso(profesionalNombre,paciente,fecha,hora,estado){
   const pro=PROFESIONALES.find(p=>p.nombre===profesionalNombre);
   if(!pro?.email){toast('El profesional no tiene email registrado',true);return;}
-  const asunto=encodeURIComponent(`LSPlanner — Nuevo turno asignado: ${paciente}`);
-  const cuerpo=encodeURIComponent(`Hola ${profesionalNombre},\n\nTe informamos que tenés un turno asignado:\n\nPaciente: ${paciente}\nFecha: ${fmtDate(fecha)} a las ${hora}hs\nEstado: ${stLabel(estado)}\n\nTenés 24hs para confirmarlo desde la plataforma.\n\nSaludos,\nLSPlanner`);
+  const asunto=encodeURIComponent(`Vincular — Nuevo turno asignado: ${paciente}`);
+  const cuerpo=encodeURIComponent(`Hola ${profesionalNombre},\n\nTe informamos que tenés un turno asignado:\n\nPaciente: ${paciente}\nFecha: ${fmtDate(fecha)} a las ${hora}hs\nEstado: ${stLabel(estado)}\n\nTenés 24hs para confirmarlo desde la plataforma.\n\nSaludos,\nVincular`);
   window.location.href=`mailto:${pro.email}?subject=${asunto}&body=${cuerpo}`;
 }
 
@@ -2257,7 +2462,7 @@ async function _sendPlatform(){
 async function _sendEmail(){
   if(!_lastTurno)return;
   const ok=await emailProfesional(_lastTurno);
-  if(ok){toast('✓ Email enviado desde LSPlanner.system');closeAvisoModal();}
+  if(ok){toast('✓ Email enviado desde Vincular.system');closeAvisoModal();}
 }
 function _sendWA(){
   if(!_lastTurno)return;
@@ -2302,7 +2507,7 @@ function _pacWA(){
   const pac=PACIENTES.find(p=>p.nombre===t.paciente);
   const tel=(pac?.tel||'').replace(/\D/g,'');
   const numero=tel?(tel.startsWith('54')?tel:'54'+tel):WA_DEFAULT_NUMBER;
-  const msg='Hola '+t.paciente+'! 👋 Te confirmamos tu turno desde *LSPlanner*:\n\n'
+  const msg='Hola '+t.paciente+'! 👋 Te confirmamos tu turno desde *Vincular*:\n\n'
     +'👩‍⚕️ Profesional: *'+t.profesional+'*\n'
     +'📅 Fecha: *'+fmtDate(t.fecha)+' a las '+t.hora+'hs*\n'
     +'💰 Importe: $'+Number(t.importe).toLocaleString('es-AR')+'\n\n'
@@ -2317,7 +2522,7 @@ async function _pacAmbos(){
   const pac=PACIENTES.find(p=>p.nombre===t.paciente);
   const tel=(pac?.tel||'').replace(/\D/g,'');
   const numero=tel?(tel.startsWith('54')?tel:'54'+tel):WA_DEFAULT_NUMBER;
-  const msg='Hola '+t.paciente+'! 👋 Te confirmamos tu turno desde *LSPlanner*:\n\n'
+  const msg='Hola '+t.paciente+'! 👋 Te confirmamos tu turno desde *Vincular*:\n\n'
     +'👩‍⚕️ Profesional: *'+t.profesional+'*\n'
     +'📅 Fecha: *'+fmtDate(t.fecha)+' a las '+t.hora+'hs*\n'
     +'💰 Importe: $'+Number(t.importe).toLocaleString('es-AR')+'\n\n'
@@ -2440,6 +2645,65 @@ function isOcupado(min,ocup){
   for(const o of ocup){if(min>=o&&min<o+TURNO_DUR)return true;if(o>=min&&o<min+TURNO_DUR)return true;}
   return false;
 }
+
+// ─── FASE 3: Días laborales / bloqueados ────────────────────────────────────
+function checkDiaLaboral(fechaStr){
+  // Verifica si una fecha es laborable según config de la sede
+  // Devuelve {laboral:true} o {laboral:false, motivo:'...'}
+  if(!fechaStr)return{laboral:true};
+  // 1. Día específico bloqueado
+  const blq=DIAS_BLOQUEADOS.find(d=>d.fecha===fechaStr&&(!currentSedeId||d.sede_id===currentSedeId));
+  if(blq)return{laboral:false,motivo:blq.motivo||'Día bloqueado'};
+  // 2. Día de la semana no laboral según config
+  if(currentSede?.dias_laborales){
+    const dias=Array.isArray(currentSede.dias_laborales)?currentSede.dias_laborales:[];
+    const labels=['dom','lun','mar','mie','jue','vie','sab'];
+    const d=new Date(fechaStr+'T12:00:00');
+    const dia=labels[d.getDay()];
+    if(dias.length>0&&!dias.includes(dia))return{laboral:false,motivo:'Día no laboral del centro'};
+  }
+  return{laboral:true};
+}
+async function bloquearDia(fechaStr,motivo){
+  if(!currentSedeId||!db)return{ok:false,err:'Sin sesión'};
+  try{
+    const{data,error}=await db.from('dias_bloqueados').insert({sede_id:currentSedeId,fecha:fechaStr,motivo:motivo||'Día no laborable'}).select().single();
+    if(error)throw error;
+    DIAS_BLOQUEADOS.push(data);
+    return{ok:true};
+  }catch(e){return{ok:false,err:e.message};}
+}
+async function desbloquearDia(fechaStr){
+  if(!currentSedeId||!db)return{ok:false,err:'Sin sesión'};
+  try{
+    const{error}=await db.from('dias_bloqueados').delete().eq('sede_id',currentSedeId).eq('fecha',fechaStr);
+    if(error)throw error;
+    DIAS_BLOQUEADOS=DIAS_BLOQUEADOS.filter(d=>!(d.sede_id===currentSedeId&&d.fecha===fechaStr));
+    return{ok:true};
+  }catch(e){return{ok:false,err:e.message};}
+}
+async function toggleDiaBloqueado(fechaStr){
+  const info=checkDiaLaboral(fechaStr);
+  const blq=DIAS_BLOQUEADOS.find(d=>d.fecha===fechaStr&&d.sede_id===currentSedeId);
+  if(blq){
+    if(!confirm('¿Quitar el bloqueo de este día?'))return;
+    const r=await desbloquearDia(fechaStr);
+    if(r.ok){toast('✓ Día desbloqueado');closeDayModal();renderDash();}
+    else toast('Error: '+r.err,true);
+  }else{
+    const motivo=prompt('Motivo del bloqueo (opcional):','Día no laborable');
+    if(motivo===null)return;
+    // Verificar que no haya turnos
+    const turnosDia=TURNOS.filter(t=>t.fecha===fechaStr&&t.estado!=='cancelado');
+    if(turnosDia.length>0){
+      if(!confirm(`Este día tiene ${turnosDia.length} turno(s) programado(s). ¿Bloquearlo igualmente?`))return;
+    }
+    const r=await bloquearDia(fechaStr,motivo);
+    if(r.ok){toast('✓ Día bloqueado');closeDayModal();renderDash();}
+    else toast('Error: '+r.err,true);
+  }
+}
+
 let _pickerH=null;
 function buildTimePicker(preselect){
   const fecha=document.getElementById('fF').value;
@@ -2449,7 +2713,16 @@ function buildTimePicker(preselect){
   document.getElementById('minuteRow').style.display='none';
   document.getElementById('timeResult').style.display='none';
   const hWrap=document.getElementById('hourBtns');hWrap.innerHTML='';
-  for(let h=8;h<=19;h++){
+  // Verificar si el día está bloqueado o no es laboral
+  const diaInfo=fecha?checkDiaLaboral(fecha):{laboral:true};
+  if(fecha&&!diaInfo.laboral){
+    hWrap.innerHTML=`<div style="grid-column:1/-1;padding:12px;background:var(--hol-bg);color:var(--hol-tx);border-radius:8px;font-size:13px;font-weight:500;text-align:center">🚫 Día no laborable: ${diaInfo.motivo}</div>`;
+    return;
+  }
+  // Usar horarios configurados de la sede (si existen)
+  const hIni=parseInt((currentSede?.horario_inicio||'08:00').split(':')[0]);
+  const hFin=parseInt((currentSede?.horario_fin||'20:00').split(':')[0]);
+  for(let h=hIni;h<=hFin;h++){
     let libre=false;
     for(let m=0;m<60;m+=5){if(!isOcupado(h*60+m,ocup)){libre=true;break;}}
     const btn=document.createElement('button');
@@ -2520,11 +2793,11 @@ function resetTimePicker(){
   document.getElementById('fH').value='';_pickerH=null;
 }
 // ─── RECORDAR SESION ─────────────────────────────────────────────────────────
-function saveCredentials(e,p){try{localStorage.setItem('ls_email',btoa(e));localStorage.setItem('ls_pass',btoa(p));}catch(x){}}
+function saveCredentials(e,p){try{localStorage.setItem('ls_email',btoa(e));}catch(x){}}
 function loadSavedCredentials(){
   try{
-    const e=localStorage.getItem('ls_email');const p=localStorage.getItem('ls_pass');
-    if(e&&p){document.getElementById('loginEmail').value=atob(e);document.getElementById('loginPass').value=atob(p);}
+    const e=localStorage.getItem('ls_email');
+    if(e){document.getElementById('loginEmail').value=atob(e);}
   }catch(x){}
 }
 function clearSavedCredentials(){try{localStorage.removeItem('ls_email');localStorage.removeItem('ls_pass');}catch(x){}}
@@ -2792,6 +3065,230 @@ function closeSB(){
   if(sb)sb.classList.remove('sb-open');
   if(ovl)ovl.classList.remove('open');
 }
+
+// ─── ONBOARDING WIZARD ──────────────────────────────────────────────────────
+let wizCurrentStep=1;
+let _wizLogoFile=null, _epLogoFile=null;
+
+function populateHourSelects(){
+  const sels=['wHoraInicio','wHoraFin','epHoraInicio','epHoraFin'];
+  const opts=[];
+  for(let h=6;h<=23;h++){
+    const v=String(h).padStart(2,'0')+':00';
+    opts.push(`<option value="${v}">${v}</option>`);
+    if(h<23)opts.push(`<option value="${String(h).padStart(2,'0')}:30">${String(h).padStart(2,'0')}:30</option>`);
+  }
+  sels.forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=opts.join('');});
+  const si=document.getElementById('wHoraInicio');if(si)si.value='08:00';
+  const sf=document.getElementById('wHoraFin');if(sf)sf.value='20:00';
+}
+
+function checkOnboarding(){
+  if(isAdmin)return; // Admin no necesita onboarding
+  if(!currentSede)return;
+  if(currentSede.onboarding_complete)return;
+  // Show wizard
+  populateHourSelects();
+  document.getElementById('wEmail').value=currentUser.email;
+  if(currentSede.nombre)document.getElementById('wCentroNombre').value=currentSede.nombre;
+  wizCurrentStep=1;
+  updateWizUI();
+  const wiz=document.getElementById('wizOverlay');
+  wiz.classList.remove('hidden');
+  wiz.style.display='flex';
+}
+
+function updateWizUI(){
+  const titles=['Información del responsable','Cambiar contraseña','Configurar tu centro'];
+  const subs=['Completá los datos del responsable del centro. Todos los campos son obligatorios.','Cambiá la contraseña temporal por una propia. Podés saltar este paso.','Personalizá tu centro con nombre y logo.'];
+  document.getElementById('wizTitle').textContent=titles[wizCurrentStep-1];
+  document.getElementById('wizSub').textContent=subs[wizCurrentStep-1];
+  for(let i=1;i<=3;i++){
+    document.getElementById('wizStep'+i).classList.toggle('hidden',i!==wizCurrentStep);
+    const s=document.getElementById('wizS'+i);
+    s.classList.toggle('done',i<wizCurrentStep);
+    s.classList.toggle('active',i===wizCurrentStep);
+  }
+  document.getElementById('wizBack').classList.toggle('hidden',wizCurrentStep===1);
+  document.getElementById('wizNext').textContent=wizCurrentStep===3?'Finalizar ✓':'Siguiente →';
+}
+
+async function wizNav(dir){
+  const err=document.getElementById('wizErr');
+  err.textContent='';
+  if(dir===1){
+    if(wizCurrentStep===1){
+      const nom=document.getElementById('wNombre').value.trim();
+      const ape=document.getElementById('wApellido').value.trim();
+      const fn=document.getElementById('wFechaNac').value;
+      const tel=document.getElementById('wTel').value.trim();
+      if(!nom||!ape||!fn||!tel){err.textContent='Todos los campos son obligatorios.';return;}
+    }
+    if(wizCurrentStep===3){
+      const cn=document.getElementById('wCentroNombre').value.trim();
+      if(!cn){err.textContent='El nombre del centro es obligatorio.';return;}
+      await wizFinish();
+      return;
+    }
+  }
+  wizCurrentStep=Math.max(1,Math.min(3,wizCurrentStep+dir));
+  updateWizUI();
+}
+
+async function wizFinish(){
+  const btn=document.getElementById('wizNext');
+  const overlay=document.getElementById('wizOverlay');
+  const errEl=document.getElementById('wizErr');
+  btn.disabled=true;btn.textContent='Guardando...';
+  errEl.textContent='';
+  try{
+    const dias=Array.from(document.querySelectorAll('.wiz-day.sel')).map(d=>d.dataset.d);
+    let logoUrl='';
+    if(_wizLogoFile&&db){
+      try{
+        const path=`centro-logos/${currentSedeId}`;
+        await db.storage.from('avatars').upload(path,_wizLogoFile,{upsert:true,contentType:_wizLogoFile.type});
+        logoUrl=db.storage.from('avatars').getPublicUrl(path).data.publicUrl;
+      }catch(le){console.warn('Logo upload failed',le);}
+    }
+    const updates={
+      responsable_nombre:document.getElementById('wNombre').value.trim(),
+      responsable_apellido:document.getElementById('wApellido').value.trim(),
+      responsable_fecha_nac:document.getElementById('wFechaNac').value||null,
+      responsable_tel:document.getElementById('wTel').value.trim(),
+      nombre:document.getElementById('wCentroNombre').value.trim(),
+      horario_inicio:document.getElementById('wHoraInicio').value||'08:00',
+      horario_fin:document.getElementById('wHoraFin').value||'20:00',
+      dias_laborales:dias,
+      onboarding_complete:true,
+    };
+    if(logoUrl)updates.logo_url=logoUrl;
+    if(!currentSedeId||!db){throw new Error('No hay sesión activa.');}
+    const{error}=await db.from('sedes').update(updates).eq('id',currentSedeId);
+    if(error){
+      console.error('Error guardando sede:',error);
+      errEl.textContent='Error al guardar: '+(error.message||'revisá la conexión')+'. Si persiste, avisá al administrador.';
+      btn.disabled=false;btn.textContent='Finalizar ✓';
+      return; // NO cerrar si falló
+    }
+    // Éxito: actualizar estado local y cerrar
+    if(currentSede)Object.assign(currentSede,updates);
+    updateSidebarCentro();
+    overlay.classList.add('hidden');
+    overlay.style.display='none';
+    toast('✓ Centro configurado correctamente');
+  }catch(e){
+    console.error('Wizard finish exception:',e);
+    errEl.textContent='Error: '+(e.message||'No se pudo guardar');
+  }
+  btn.disabled=false;btn.textContent='Finalizar ✓';
+}
+
+async function wizChangePassword(){
+  const p1=document.getElementById('wPass1').value;
+  const p2=document.getElementById('wPass2').value;
+  const msg=document.getElementById('wPassMsg');
+  msg.textContent='';
+  if(!p1){msg.textContent='Ingresá una contraseña.';return;}
+  if(p1.length<6){msg.textContent='Mínimo 6 caracteres.';return;}
+  if(p1!==p2){msg.textContent='Las contraseñas no coinciden.';return;}
+  try{
+    const{error}=await db.auth.updateUser({password:p1});
+    if(error)throw error;
+    document.getElementById('wPassOk').classList.remove('hidden');
+    document.getElementById('wPass1').disabled=true;
+    document.getElementById('wPass2').disabled=true;
+    if(currentSedeId)await db.from('sedes').update({password_changed:true}).eq('id',currentSedeId);
+  }catch(e){
+    msg.textContent='Error: '+(e.message||'No se pudo cambiar');
+  }
+}
+
+function previewWizLogo(input){
+  if(!input.files||!input.files[0])return;
+  _wizLogoFile=input.files[0];
+  const reader=new FileReader();
+  reader.onload=e=>{document.getElementById('wLogoPreview').innerHTML=`<img src="${e.target.result}">`};
+  reader.readAsDataURL(_wizLogoFile);
+}
+
+// ─── EDIT PROFILE ───────────────────────────────────────────────────────────
+function openEditProfile(){
+  if(!currentSede||isAdmin)return;
+  populateHourSelects();
+  document.getElementById('epNombre').value=currentSede.nombre||'';
+  document.getElementById('epTel').value=currentSede.responsable_tel||'';
+  const hi=document.getElementById('epHoraInicio');
+  const hf=document.getElementById('epHoraFin');
+  if(hi)hi.value=currentSede.horario_inicio||'08:00';
+  if(hf)hf.value=currentSede.horario_fin||'20:00';
+  // Logo preview
+  const prev=document.getElementById('epLogoPreview');
+  if(currentSede.logo_url){prev.innerHTML=`<img src="${currentSede.logo_url}">`;}
+  else{prev.innerHTML='📷';}
+  _epLogoFile=null;
+  document.getElementById('moEditProfile').classList.add('open');
+}
+function closeEditProfile(){document.getElementById('moEditProfile').classList.remove('open');_epLogoFile=null;}
+
+function previewEpLogo(input){
+  if(!input.files||!input.files[0])return;
+  _epLogoFile=input.files[0];
+  const reader=new FileReader();
+  reader.onload=e=>{document.getElementById('epLogoPreview').innerHTML=`<img src="${e.target.result}">`};
+  reader.readAsDataURL(_epLogoFile);
+}
+
+async function saveEditProfile(){
+  const nom=document.getElementById('epNombre').value.trim();
+  if(!nom){toast('El nombre es obligatorio',true);return;}
+  setBusy('epSaveBtn',true);
+  try{
+    let logoUrl=currentSede.logo_url||'';
+    if(_epLogoFile&&db){
+      const path=`centro-logos/${currentSedeId}`;
+      await db.storage.from('avatars').upload(path,_epLogoFile,{upsert:true,contentType:_epLogoFile.type});
+      logoUrl=db.storage.from('avatars').getPublicUrl(path).data.publicUrl+'?t='+Date.now();
+    }
+    const updates={
+      nombre:nom,
+      responsable_tel:document.getElementById('epTel').value.trim(),
+      horario_inicio:document.getElementById('epHoraInicio').value,
+      horario_fin:document.getElementById('epHoraFin').value,
+    };
+    if(logoUrl)updates.logo_url=logoUrl;
+    const{error}=await db.from('sedes').update(updates).eq('id',currentSedeId);
+    if(error)throw error;
+    Object.assign(currentSede,updates);
+    updateSidebarCentro();
+    closeEditProfile();
+    toast('✓ Perfil actualizado');
+  }catch(e){toast('Error: '+(e.message||''),true);}
+  setBusy('epSaveBtn',false);
+}
+
+function updateSidebarCentro(){
+  if(!currentSede)return;
+  const name=currentSede.nombre||'Centro';
+  document.getElementById('footerName').textContent=name.length>18?name.substring(0,18)+'…':name;
+  // Show edit pencil for centro role
+  if(isCentro){document.getElementById('editProfileBtn').style.display='flex';}
+}
+
+// ─── TEMA ────────────────────────────────────────────────────────────────────
+function setTheme(t){
+  if(t!=='rosa'&&t!=='claro')t='rosa';
+  document.documentElement.setAttribute('data-theme',t==='rosa'?'':t);
+  document.querySelectorAll('.theme-dot').forEach(d=>d.classList.toggle('active',d.dataset.t===t));
+  try{localStorage.setItem('vincular_theme',t);}catch(x){}
+}
+function loadTheme(){
+  try{
+    const t=localStorage.getItem('vincular_theme')||'rosa';
+    setTheme(t);
+  }catch(x){}
+}
+loadTheme();
 
 // ─── ARRANQUE ────────────────────────────────────────────────────────────────
 init();
