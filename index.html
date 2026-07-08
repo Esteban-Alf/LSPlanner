@@ -6,34 +6,32 @@
 <title>Vincular</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 .hidden{display:none!important;}
 :root{
-  --sidebar-bg:#FC9BB5;--primary:#D63F6E;--primary-dark:#B02D57;
-  --primary-light:#FBCDD8;--primary-xlight:#FAE9E9;
-  --text-primary:#3D1A24;--text-secondary:#8B4D5E;--text-muted:#C48A97;
-  --bg-page:#FAE9E9;--bg-card:#FFFFFF;--border:#F2C4CF;
-  --sidebar-text:rgba(61,26,36,0.72);
-  --s-conf-bg:#D4F4EB;--s-conf-tx:#0D5C4A;
-  --s-pend-bg:#FFF3CD;--s-pend-tx:#856404;
-  --s-repr-bg:#EDE9FE;--s-repr-tx:#5B21B6;
-  --s-canc-bg:#FFE4E4;--s-canc-tx:#B91C1C;
-  --hol-bg:#FFF0E6;--hol-tx:#C2410C;
+  --sidebar-bg:#232A25;--sidebar-hover:#2C342E;--sidebar-active:#333C35;--primary:#4C7A63;--primary-dark:#375A48;
+  --primary-light:#DCEAE1;--primary-xlight:#F1F6F3;
+  --text-primary:#282521;--text-secondary:#6C6459;--text-muted:#A79E90;
+  --bg-page:#F7F4EE;--bg-card:#FFFFFF;--border:#E7E0D3;
+  --sidebar-text:rgba(255,255,255,0.72);--sidebar-text-strong:rgba(255,255,255,0.95);
+  --s-conf-bg:#DEEFE5;--s-conf-tx:#1F5C41;
+  --s-pend-bg:#FBEDD3;--s-pend-tx:#8A5A12;
+  --s-repr-bg:#E5E6F4;--s-repr-tx:#4A4E8C;
+  --s-canc-bg:#F7DEDD;--s-canc-tx:#9B3B34;
+  --hol-bg:#F7EDDD;--hol-tx:#8A5A12;
 }
 /* ── Tema Claro ──────────────────────────────── */
 [data-theme="claro"]{
-  --sidebar-bg:#F1F5F9;--primary:#0D9488;--primary-dark:#0F766E;
-  --primary-light:#CCFBF1;--primary-xlight:#F0FDFA;
-  --text-primary:#1E293B;--text-secondary:#475569;--text-muted:#94A3B8;
+  --sidebar-bg:#F1F5EF;--sidebar-hover:#E4EAE1;--sidebar-active:#DCE6DD;
+  --primary-light:#DCEAE1;--primary-xlight:#F1F6F3;
+  --text-primary:#282521;--text-secondary:#6C6459;--text-muted:#A79E90;
   --bg-page:#F8FAFC;--bg-card:#FFFFFF;--border:#E2E8F0;
-  --sidebar-text:rgba(30,41,59,0.72);
+  --sidebar-text:rgba(40,37,33,0.72);--sidebar-text-strong:rgba(40,37,33,0.95);
 }
 [data-theme="claro"] .sidebar{border-right:1px solid var(--border);}
 [data-theme="claro"] .sb-logo-icon{background:var(--primary);}
-[data-theme="claro"] .nav-item:hover{background:rgba(13,148,136,.08);color:var(--primary-dark);}
-[data-theme="claro"] .nav-item.active{background:rgba(13,148,136,.12);color:var(--primary-dark);}
 [data-theme="claro"] .user-av{background:var(--primary-light);color:var(--primary-dark);}
 [data-theme="claro"] .sb-footer{border-top-color:var(--border);}
 /* ── Theme picker ────────────────────────────── */
@@ -41,8 +39,8 @@
 .theme-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative;}
 .theme-dot:hover{transform:scale(1.15);}
 .theme-dot.active{border-color:var(--primary);box-shadow:0 0 0 2px var(--bg-page);}
-.theme-dot[data-t="rosa"]{background:linear-gradient(135deg,#FC9BB5,#D63F6E);}
-.theme-dot[data-t="claro"]{background:linear-gradient(135deg,#E2E8F0,#0D9488);}
+.theme-dot[data-t="rosa"]{background:linear-gradient(135deg,#375A48,#232A25);}
+.theme-dot[data-t="claro"]{background:linear-gradient(135deg,#F1F5EF,#4C7A63);}
 /* ── Onboarding Wizard ───────────────────────── */
 .wiz-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;}
 .wiz-card{background:var(--bg-card);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);border:1px solid var(--border);}
@@ -71,24 +69,25 @@
 .wiz-logo-preview:hover{border-color:var(--primary);background:var(--primary-light);}
 .wiz-logo-preview img{width:100%;height:100%;object-fit:cover;}
 /* ── Edit pencil ─────────────────────────────── */
-.sb-edit-btn{width:28px;height:28px;border-radius:7px;border:1px solid rgba(61,26,36,.15);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .14s;opacity:.5;}
-.sb-edit-btn:hover{opacity:1;background:rgba(255,255,255,.3);border-color:rgba(61,26,36,.3);}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg-page);color:var(--text-primary);display:flex;height:100vh;overflow:hidden;}
+.sb-edit-btn{width:28px;height:28px;border-radius:7px;border:1px solid var(--sidebar-text);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .14s;opacity:.5;color:var(--sidebar-text-strong);}
+.sb-edit-btn:hover{opacity:1;background:var(--sidebar-hover);}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg-page);color:var(--text-primary);display:flex;height:100vh;overflow:hidden;}
+h1,h2,.brand-font{font-family:'Fraunces',serif;}
 .sidebar{width:220px;min-width:220px;background:var(--sidebar-bg);height:100vh;display:flex;flex-direction:column;overflow-y:auto;}
-.sb-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid rgba(61,26,36,0.12);}
-.sb-logo-icon{width:34px;height:34px;background:var(--primary-dark);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;}
-.sb-logo-text{font-size:16px;font-weight:700;color:rgba(61,26,36,0.9);letter-spacing:-0.02em;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid var(--border);}
+.sb-logo-icon{width:34px;height:34px;background:var(--primary);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;}
+.sb-logo-text{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--sidebar-text-strong);letter-spacing:-0.01em;}
 .sb-section{padding:14px 10px 6px;}
-.sb-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(61,26,36,0.4);padding:0 8px;margin-bottom:5px;}
+.sb-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--sidebar-text);opacity:.55;padding:0 8px;margin-bottom:5px;}
 .nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;cursor:pointer;color:var(--sidebar-text);font-size:13.5px;font-weight:500;transition:background .14s,color .14s;margin-bottom:2px;user-select:none;}
-.nav-item:hover{background:rgba(255,255,255,.35);color:rgba(61,26,36,1);}
-.nav-item.active{background:rgba(255,255,255,.55);color:rgba(61,26,36,1);}
+.nav-item:hover{background:var(--sidebar-hover);color:var(--sidebar-text-strong);}
+.nav-item.active{background:var(--sidebar-active);color:var(--sidebar-text-strong);}
 .nav-icon{width:17px;height:17px;opacity:.7;flex-shrink:0;}
 .nav-item.active .nav-icon{opacity:1;}
-.sb-footer{margin-top:auto;padding:14px 16px;border-top:1px solid rgba(61,26,36,0.12);display:flex;align-items:center;gap:10px;}
-.user-av{width:32px;height:32px;background:rgba(255,255,255,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:rgba(61,26,36,0.85);flex-shrink:0;}
-.user-name{font-size:12.5px;font-weight:600;color:rgba(61,26,36,0.9);}
-.user-role{font-size:11px;color:rgba(61,26,36,0.5);}
+.sb-footer{margin-top:auto;padding:14px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.user-av{width:32px;height:32px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.user-name{font-size:12.5px;font-weight:600;color:var(--sidebar-text-strong);}
+.user-role{font-size:11px;color:var(--sidebar-text);}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .page{display:none;flex-direction:column;flex:1;overflow-y:auto;}
 .page.active{display:flex;}
@@ -283,6 +282,9 @@ tbody tr:hover td{background:#F8FDFB;}
 .spin{width:26px;height:26px;border-radius:50%;border:3px solid var(--primary-light);border-top-color:var(--primary);animation:sp .7s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg);}}
 .setup-card{background:#fff;border-radius:16px;border:1px solid var(--border);max-width:580px;width:100%;padding:36px 32px;}
+.login-reveal{max-height:0;opacity:0;overflow:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1),opacity .28s ease;}
+.login-stage:hover .login-reveal,.login-stage:focus-within .login-reveal,.login-reveal.force-open{max-height:420px;opacity:1;}
+.login-stage:hover .login-hint,.login-stage:focus-within .login-hint{opacity:0;}
 .setup-step{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;}
 .step-num{width:26px;height:26px;border-radius:50%;background:var(--primary);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .step-text{font-size:13.5px;color:var(--text-primary);line-height:1.55;}
@@ -300,15 +302,15 @@ tbody tr:hover td{background:#F8FDFB;}
   padding:0 16px;height:52px;min-height:52px;
   background:var(--sidebar-bg);
   position:fixed;top:0;left:0;right:0;z-index:300;}
-.mob-topbar-title{font-size:15px;font-weight:700;color:var(--text-primary);}
+.mob-topbar-title{font-size:15px;font-weight:700;color:#fff;}
 .hamburger{width:40px;height:40px;border-radius:9px;
-  border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);
+  border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.12);
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   flex-direction:column;gap:5px;flex-shrink:0;}
 .hamburger span{display:block;width:18px;height:2px;
-  background:var(--text-primary);border-radius:2px;}
+  background:#fff;border-radius:2px;}
 .mob-btn{width:40px;height:40px;border-radius:9px;
-  border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.45);
+  border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.12);
   cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sb-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:350;}
 .sb-ovl.open{display:block;}
@@ -400,16 +402,18 @@ tbody tr:hover td{background:#F8FDFB;}
 
 <!-- ══ SETUP SCREEN (si no hay credenciales) ══════════════════════════════ -->
 <!-- ══ LOGIN SCREEN ════════════════════════════════════════════════════════ -->
-<div class="overlay-screen hidden" id="loginScreen">
-  <div class="setup-card" style="max-width:380px;text-align:center">
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:12px">
-      <circle cx="18" cy="20" r="12" stroke="var(--primary)" stroke-width="3" fill="none" opacity="0.9"/>
-      <circle cx="30" cy="28" r="12" stroke="var(--primary)" stroke-width="3" fill="none" opacity="0.5"/>
+<div class="overlay-screen hidden" id="loginScreen" style="background:var(--sidebar-bg)">
+  <div class="setup-card login-stage" style="max-width:380px;text-align:center;background:transparent;border:none;padding:36px 32px;" onclick="document.querySelector('.login-reveal').classList.add('force-open')">
+    <svg width="56" height="56" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:14px">
+      <circle cx="18" cy="20" r="12" fill="var(--primary)"/>
+      <circle cx="30" cy="20" r="12" fill="var(--primary-light)" opacity="0.85"/>
     </svg>
-    <div style="font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:-.02em;margin-bottom:4px">Vincular</div>
-    <div style="font-size:12px;color:var(--text-muted);margin-bottom:2px;font-weight:500;letter-spacing:.03em">Gestión terapéutica conectada</div>
-    <div style="font-size:13px;color:var(--text-secondary);margin-bottom:28px">Ingresá con tu cuenta para continuar</div>
-    <div style="display:flex;flex-direction:column;gap:12px;text-align:left">
+    <div class="brand-font" style="font-size:34px;font-weight:600;color:#fff;letter-spacing:-.01em;margin-bottom:4px">Vincular</div>
+    <div style="font-size:12.5px;color:rgba(255,255,255,0.5);margin-bottom:6px;font-weight:500;letter-spacing:.03em">Gestión terapéutica conectada</div>
+    <div class="login-hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:2px;transition:opacity .2s">Pasá el cursor por acá para ingresar</div>
+    <div class="login-reveal">
+    <div style="background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.35);padding:26px 26px 22px;margin-top:18px;text-align:left">
+    <div style="display:flex;flex-direction:column;gap:12px">
       <div class="fg"><label class="flabel">Usuario o email</label>
         <input type="text" class="finput" id="loginEmail" placeholder="Ej: ADMIN, SER, o tu@email.com" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
@@ -420,8 +424,10 @@ tbody tr:hover td{background:#F8FDFB;}
         <input type="checkbox" id="rememberMe" style="width:14px;height:14px;accent-color:var(--primary);cursor:pointer">
         Recordar mis datos de acceso
       </label>
-      <div style="font-size:12px;color:#B91C1C;min-height:18px;font-weight:500" id="loginErr"></div>
+      <div style="font-size:12px;color:var(--s-canc-tx);min-height:18px;font-weight:500" id="loginErr"></div>
       <button class="btn btn-primary" style="width:100%;justify-content:center;padding:11px;font-size:14px" id="loginBtn" onclick="doLogin()">Ingresar</button>
+    </div>
+    </div>
     </div>
   </div>
 </div>
@@ -597,15 +603,15 @@ tbody tr:hover td{background:#F8FDFB;}
       <div class="theme-dot" data-t="claro" title="Claro" onclick="setTheme('claro')"></div>
     </div>
   </div>
-  <div id="sidebarSedeTag" style="display:none;margin:0 10px 8px;padding:5px 10px;background:rgba(255,255,255,.2);border-radius:6px;font-size:11px;font-weight:600;color:rgba(61,26,36,.8);text-align:center"></div>
+  <div id="sidebarSedeTag" style="display:none;margin:0 10px 8px;padding:5px 10px;background:rgba(255,255,255,.1);border-radius:6px;font-size:11px;font-weight:600;color:var(--sidebar-text-strong);text-align:center"></div>
   <div class="sb-footer">
     <div class="user-av" id="footerAv">AG</div>
     <div style="flex:1;min-width:0"><div class="user-name" id="footerName">Admin</div><div class="user-role" id="footerRole">Administrador</div></div>
     <button class="sb-edit-btn" onclick="openEditProfile()" title="Editar perfil" id="editProfileBtn" style="display:none">
       <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
     </button>
-    <button onclick="logout()" title="Cerrar sesión" style="width:28px;height:28px;border-radius:7px;border:1px solid rgba(61,26,36,.2);background:rgba(255,255,255,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s;" onmouseover="this.style.background='rgba(255,255,255,.5)'" onmouseout="this.style.background='rgba(255,255,255,.3)'">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="rgba(61,26,36,0.7)" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+    <button onclick="logout()" title="Cerrar sesión" style="width:28px;height:28px;border-radius:7px;border:1px solid var(--sidebar-text);background:rgba(255,255,255,.08);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s;" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--sidebar-text-strong)" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
     </button>
   </div>
 </aside>
@@ -616,7 +622,7 @@ tbody tr:hover td{background:#F8FDFB;}
   <button class="hamburger" onclick="openSB()"><span></span><span></span><span></span></button>
   <span class="mob-topbar-title">Vincular</span>
   <button class="mob-btn" onclick="logout()" title="Cerrar sesión">
-    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="rgba(61,26,36,0.75)" stroke-width="2.2">
+    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.2">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
       <polyline points="16 17 21 12 16 7"/>
       <line x1="21" y1="12" x2="9" y2="12"/>
@@ -789,6 +795,27 @@ tbody tr:hover td{background:#F8FDFB;}
           Enviar solicitud
         </button>
       </div>
+      <!-- Formulario alta de usuario (visible para Admin) -->
+      <div id="altaUsuarioForm" style="max-width:560px;background:#fff;border-radius:12px;border:1px solid var(--border);padding:22px;margin-bottom:18px;display:none">
+        <div style="font-size:14.5px;font-weight:600;color:var(--text-primary);margin-bottom:4px">Solicitar alta de usuario</div>
+        <div style="font-size:12.5px;color:var(--text-secondary);margin-bottom:16px">Soporte recibe tu pedido y crea el acceso manualmente en Supabase.</div>
+        <div class="form-grid">
+          <div class="fg full"><label class="flabel">Nombre completo *</label><input type="text" class="finput" id="auNombre" placeholder="Nombre y apellido"></div>
+          <div class="fg"><label class="flabel">Email *</label><input type="email" class="finput" id="auEmail" placeholder="usuario@email.com"></div>
+          <div class="fg"><label class="flabel">Rol solicitado *</label>
+            <select class="fsel" id="auRol">
+              <option value="profesional">Profesional</option>
+              <option value="centro">Centro</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="fg full"><label class="flabel">Nota para Soporte</label><input type="text" class="finput" id="auNota" placeholder="Contexto adicional (opcional)"></div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:14px" onclick="enviarSolicitudAltaUsuario(document.getElementById('auNombre').value.trim(),document.getElementById('auEmail').value.trim(),document.getElementById('auRol').value,document.getElementById('auNota').value.trim())">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Enviar a Soporte
+        </button>
+      </div>
       <div id="usuariosContent"></div>
     </div>
   </div>
@@ -808,7 +835,7 @@ tbody tr:hover td{background:#F8FDFB;}
             <div class="fg">
               <label class="flabel">Destinatario *</label>
               <select class="fsel" id="sptDestino" style="width:100%" onchange="toggleDestinoInfo()">
-                <option value="admin">🔧 Administrador Vincular</option>
+                <option value="admin">🛟 Soporte Vincular</option>
                 <option value="sede">🏢 Mi sede</option>
               </select>
               <div id="sptDestinoInfo" style="display:none;margin-top:6px;font-size:11.5px;color:var(--text-secondary);background:var(--primary-xlight);padding:8px 10px;border-radius:6px"></div>
@@ -957,6 +984,30 @@ tbody tr:hover td{background:#F8FDFB;}
     <div class="md-ftr">
       <button class="btn btn-outline" onclick="closeStModal()">Cancelar</button>
       <button class="btn btn-primary" id="btnApplySt" onclick="applyStModal()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<div class="mo" id="moMembresia" onclick="if(event.target===this)closeMembresiaModal()">
+  <div class="md" style="max-width:400px">
+    <div class="md-hdr"><div class="md-title">Editar membresía · <span id="memSede"></span></div><button class="md-close" onclick="closeMembresiaModal()">×</button></div>
+    <div class="md-body">
+      <div class="form-grid">
+        <div class="fg full"><label class="flabel">Plan</label><input type="text" class="finput" id="memPlan" placeholder="Mensual, Anual..."></div>
+        <div class="fg"><label class="flabel">Monto mensual $</label><input type="number" class="finput" id="memMonto" min="0"></div>
+        <div class="fg"><label class="flabel">Próximo pago</label><input type="date" class="finput" id="memProximoPago"></div>
+        <div class="fg full"><label class="flabel">Estado</label>
+          <select class="fsel" id="memEstado">
+            <option value="activa">Activa</option>
+            <option value="vencida">Vencida</option>
+            <option value="suspendida">Suspendida</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="md-ftr">
+      <button class="btn btn-outline" onclick="closeMembresiaModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveMembresia()">Guardar</button>
     </div>
   </div>
 </div>
@@ -1176,7 +1227,7 @@ const ALIAS_MAP = {
   'ser':    'ctagral24@gmail.com',
   'free':   'freetest.lsplanner@gmail.com',
 };
-let currentUser=null, isAdmin=false, isCentro=false, currentProfesional=null;
+let currentUser=null, isAdmin=false, isCentro=false, isSoporte=false, currentProfesional=null;
 let currentSede=null, currentSedeId=null, currentRol=null;
 let SEDES=[], USUARIOS_APP=[];
 let SOLICITUDES=[], NOTIFICACIONES=[];
@@ -1307,6 +1358,7 @@ async function _silentReload(user){
   if(uData){currentRol=uData.rol;currentSede=uData.sedes;currentSedeId=uData.sede_id;}
   isAdmin=(currentRol==='admin');
   isCentro=(currentRol==='centro');
+  isSoporte=(currentRol==='soporte');
   if(!isAdmin){
     const{data:pData}=await db.from('profesionales').select('*').ilike('email',user.email);
     currentProfesional=pData&&pData[0]?normPro(pData[0]):null;
@@ -1382,6 +1434,7 @@ async function onLogin(user){
   currentRol=uData.rol;currentSede=uData.sedes;currentSedeId=uData.sede_id;
   isAdmin=(currentRol==='admin');
   isCentro=(currentRol==='centro');
+  isSoporte=(currentRol==='soporte');
   if(!isAdmin){
     const{data:pData}=await db.from('profesionales').select('*').ilike('email',user.email);
     currentProfesional=pData&&pData[0]?normPro(pData[0]):null;
@@ -1406,21 +1459,29 @@ async function onLogin(user){
 function applyRoleUI(){
   const centroHide=['rendimiento','panel-control'];
   const profHide=['financiero','usuarios','profesionales','solicitudes','rendimiento','panel-control'];
+  const soporteShow=['soporte','usuarios','panel-control'];
   document.querySelectorAll('.nav-item[data-page]').forEach(el=>{
     const p=el.dataset.page;
-    if(isAdmin)el.style.display='';
+    if(isSoporte)el.style.display=soporteShow.includes(p)?'':'none';
+    else if(isAdmin)el.style.display='';
     else if(isCentro)el.style.display=centroHide.includes(p)?'none':'';
     else el.style.display=profHide.includes(p)?'none':'';
   });
-  const rolLabels={admin:'Admin Vincular',centro:'Centro',profesional:'Profesional'};
-  const name=isAdmin?'Vincular':(currentSede?.nombre||currentProfesional?.nombre||currentUser.email);
+  const rolLabels={admin:'Admin Vincular',centro:'Centro',profesional:'Profesional',soporte:'Soporte'};
+  const name=isSoporte?'Soporte Vincular':(isAdmin?'Vincular':(currentSede?.nombre||currentProfesional?.nombre||currentUser.email));
   const shortName=name.split(' ').slice(0,2).join(' ');
-  const avText=isAdmin?'AD':(isCentro?(currentSede?.alias?.substring(0,2)||'CE'):initials(name));
+  const avText=isSoporte?'ST':(isAdmin?'AD':(isCentro?(currentSede?.alias?.substring(0,2)||'CE'):initials(name)));
   document.getElementById('footerAv').textContent=avText;
   document.getElementById('footerName').textContent=shortName.length>18?shortName.substring(0,18)+'…':shortName;
   document.getElementById('footerRole').textContent=rolLabels[currentRol]||'Usuario';
   const sedeTag=document.getElementById('sidebarSedeTag');
-  if(sedeTag){if(!isAdmin&&currentSede){sedeTag.textContent=currentSede.nombre;sedeTag.style.display='block';}else sedeTag.style.display='none';}
+  if(sedeTag){if(!isAdmin&&!isSoporte&&currentSede){sedeTag.textContent=currentSede.nombre;sedeTag.style.display='block';}else sedeTag.style.display='none';}
+  if(isSoporte){
+    const activePage=document.querySelector('.page.active');
+    if(activePage&&!soporteShow.includes(activePage.id.replace('page-',''))){
+      showPage('soporte',document.querySelector('[data-page=soporte]'));
+    }
+  }
 }
 
 async function loadAll(){
@@ -1438,8 +1499,8 @@ async function loadAll(){
     TURNOS=(r3.data||[]).map(normTur);
     try{const{data}=await db.from('notificaciones').select('*').eq('destinatario_email',currentUser.email).order('created_at',{ascending:false}).limit(30);NOTIFICACIONES=data||[];}catch(e){NOTIFICACIONES=[];}
     if(isAdmin||isCentro){try{const{data}=await db.from('solicitudes').select('*').order('created_at',{ascending:false});SOLICITUDES=(data||[]).map(normSol);}catch(e){SOLICITUDES=[];}}
-    if(isAdmin){try{const{data}=await db.from('sedes').select('*').order('nombre');SEDES=data||[];}catch(e){SEDES=[];}}
-    if(isAdmin){try{const{data}=await db.from('usuarios_app').select('*').order('email');USUARIOS_APP=data||[];}catch(e){USUARIOS_APP=[];}}
+    if(isAdmin||isSoporte){try{const{data}=await db.from('sedes').select('*').order('nombre');SEDES=data||[];}catch(e){SEDES=[];}}
+    if(isAdmin||isSoporte){try{const{data}=await db.from('usuarios_app').select('*').order('email');USUARIOS_APP=data||[];}catch(e){USUARIOS_APP=[];}}
     // Fase 3: cargar días bloqueados
     try{const{data}=await db.from('dias_bloqueados').select('*').order('fecha');DIAS_BLOQUEADOS=data||[];}catch(e){DIAS_BLOQUEADOS=[];}
   }catch(err){
@@ -2198,7 +2259,7 @@ function renderAgenda(){
   if(!isAdmin){
     if(currentProfesional) base=TURNOS.filter(t=>t.profesional===currentProfesional.nombre);
     else{
-      document.getElementById('agendaContent').innerHTML=`<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-txt" style="color:#B02D57">Tu email de acceso no coincide con ningún profesional registrado.<br><br>Pedile al administrador que verifique que el email en tu ficha sea exactamente: <strong>${currentUser?.email||''}</strong></div></div>`;
+      document.getElementById('agendaContent').innerHTML=`<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-txt" style="color:var(--s-canc-tx)">Tu email de acceso no coincide con ningún profesional registrado.<br><br>Pedile al administrador que verifique que el email en tu ficha sea exactamente: <strong>${currentUser?.email||''}</strong></div></div>`;
       return;
     }
   }
@@ -2252,6 +2313,8 @@ function renderUsuarios(){
   // Mostrar form alta profesional solo para Centro
   const formEl=document.getElementById('altaProfForm');
   if(formEl)formEl.style.display=isCentro?'block':'none';
+  const auFormEl=document.getElementById('altaUsuarioForm');
+  if(auFormEl)auFormEl.style.display=isAdmin?'block':'none';
   const proRows=PROFESIONALES.map(p=>`
     <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)">
       ${avDiv(p.nombre,38,13)}
@@ -2892,7 +2955,7 @@ async function renderPanelControl(){
   if(badge){badge.textContent=pend.length||'';badge.style.display=pend.length?'inline':'none';}
 
   const renderSol=s=>{
-    const tipos={alta_profesional:'Alta de profesional',soporte:'Soporte',consulta:'Consulta'};
+    const tipos={alta_profesional:'Alta de profesional',alta_usuario:'Alta de usuario',soporte:'Soporte',consulta:'Consulta'};
     const stCol={pendiente:'#FFF3CD',aprobado:'#D4F4EB',rechazado:'#FFE4E4'};
     const stTx={pendiente:'#856404',aprobado:'#0D5C4A',rechazado:'#B91C1C'};
     return `<div style="background:#fff;border-radius:10px;border:1px solid var(--border);padding:14px 16px;margin-bottom:8px">
@@ -2917,6 +2980,13 @@ async function renderPanelControl(){
   };
 
   el.innerHTML=`
+    ${isSoporte?`
+    <details open style="margin-bottom:16px">
+      <summary style="font-size:14px;font-weight:600;color:var(--text-primary);cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);margin-bottom:12px;list-style:none">
+        💳 Membresías
+      </summary>
+      ${SEDES.length?SEDES.map(renderMembresiaCard).join(''):'<div style="color:var(--text-muted);font-size:13px">No hay sedes registradas</div>'}
+    </details>`:''}
     ${pend.length?`
     <details open style="margin-bottom:16px">
       <summary style="font-size:14px;font-weight:600;color:var(--text-primary);cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);margin-bottom:12px;list-style:none;display:flex;align-items:center;gap:8px">
@@ -2948,6 +3018,52 @@ async function rechazarSolAdmin(id){
   toast('Solicitud rechazada');renderPanelControl();
 }
 
+// ─── MEMBRESÍA (gestionada por Soporte) ───────────────────────────────────────
+function renderMembresiaCard(s){
+  const estCol={activa:'#D4F4EB',vencida:'#FFE4E4',suspendida:'#FFF3CD'};
+  const estTx={activa:'#0D5C4A',vencida:'#B91C1C',suspendida:'#856404'};
+  const est=s.estado_membresia||'activa';
+  return `<div style="background:#fff;border-radius:10px;border:1px solid var(--border);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <div>
+      <div style="font-size:13.5px;font-weight:600;color:var(--text-primary)">${s.nombre}</div>
+      <div style="font-size:11.5px;color:var(--text-secondary);margin-top:3px">
+        Plan: ${s.plan||'—'} · $${(s.monto_mensual||0).toLocaleString('es-AR')}/mes · Próximo pago: ${s.proximo_pago?new Date(s.proximo_pago+'T00:00').toLocaleDateString('es-AR'):'—'}
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <span style="background:${estCol[est]};color:${estTx[est]};font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px">${est}</span>
+      <button class="act-btn" onclick="openMembresiaModal('${s.id}')" title="Editar"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+    </div>
+  </div>`;
+}
+let editMembresiaId=null;
+function openMembresiaModal(id){
+  const s=SEDES.find(x=>x.id===id);if(!s)return;
+  editMembresiaId=id;
+  document.getElementById('memSede').textContent=s.nombre;
+  document.getElementById('memPlan').value=s.plan||'';
+  document.getElementById('memMonto').value=s.monto_mensual||'';
+  document.getElementById('memProximoPago').value=s.proximo_pago||'';
+  document.getElementById('memEstado').value=s.estado_membresia||'activa';
+  document.getElementById('moMembresia').classList.add('open');
+}
+function closeMembresiaModal(){document.getElementById('moMembresia').classList.remove('open');editMembresiaId=null;}
+async function saveMembresia(){
+  if(!editMembresiaId)return;
+  const payload={
+    plan:document.getElementById('memPlan').value.trim(),
+    monto_mensual:Number(document.getElementById('memMonto').value)||0,
+    proximo_pago:document.getElementById('memProximoPago').value||null,
+    estado_membresia:document.getElementById('memEstado').value,
+  };
+  const{error}=await db.from('sedes').update(payload).eq('id',editMembresiaId);
+  if(error){toast('❌ No se pudo guardar. ¿Existen las columnas plan/monto_mensual/proximo_pago/estado_membresia en sedes?',true);return;}
+  const s=SEDES.find(x=>x.id===editMembresiaId);if(s)Object.assign(s,payload);
+  closeMembresiaModal();
+  toast('✓ Membresía actualizada');
+  renderPanelControl();
+}
+
 // ─── SOLICITUD ALTA PROFESIONAL (desde Centro) ────────────────────────────────
 async function enviarSolicitudAltaProfesional(nombre,email,especialidad,tarifa){
   if(!nombre||!email){toast('Nombre y email son obligatorios',true);return;}
@@ -2958,6 +3074,28 @@ async function enviarSolicitudAltaProfesional(nombre,email,especialidad,tarifa){
   });
   if(error){toast('❌ Error al enviar solicitud',true);return;}
   toast('✓ Solicitud enviada al administrador');
+}
+
+// ─── SOLICITUD ALTA DE USUARIO (desde Admin, para Soporte) ────────────────────
+async function enviarSolicitudAltaUsuario(nombre,email,rol,nota){
+  if(!nombre||!email){toast('Nombre y email son obligatorios',true);return;}
+  const{error}=await db.from('solicitudes_admin').insert({
+    sede_id:currentSedeId,
+    tipo:'alta_usuario',
+    datos:{nombre,email,rol,nota:nota||'',solicitado_por:currentUser?.email||''}
+  });
+  if(error){toast('❌ Error al enviar solicitud',true);return;}
+  toast('✓ Solicitud enviada a Soporte');
+  ['auNombre','auEmail','auNota'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  try{
+    const soporteEmail=USUARIOS_APP.find(u=>u.rol==='soporte')?.email||'lsplanner.system@gmail.com';
+    await db.from('notificaciones').insert({
+      destinatario_email:soporteEmail,
+      profesional:currentUser?.email||'Admin',
+      mensaje:'Nueva alta de usuario pendiente: '+nombre+' ('+rol+')',
+      leida:false,
+    });
+  }catch(e){}
 }
 
 // ─── SOPORTE ─────────────────────────────────────────────────────────────────
@@ -3019,7 +3157,7 @@ async function enviarSoporte(){
       tipo_mensaje:tipoLabels[tipo]||tipo,
       seccion,
       prioridad:prioLabels[_sptPrio]||_sptPrio,
-      destinatario:destino==='sede'?('Sede '+currentSede?.nombre):'Administrador',
+      destinatario:destino==='sede'?('Sede '+currentSede?.nombre):'Soporte Vincular',
       mensaje,
     },
     estado:'pendiente',
@@ -3035,7 +3173,7 @@ async function enviarSoporte(){
     return;
   }
 
-  fb.textContent='Mensaje enviado al administrador. Te responderemos a la brevedad.';
+  fb.textContent='Mensaje enviado a Soporte. Te responderemos a la brevedad.';
   fb.style.background='#D4F4EB';fb.style.color='#0D5C4A';fb.style.display='block';
   document.getElementById('sptMensaje').value='';
   document.getElementById('sptTipo').value='';
